@@ -1,25 +1,4 @@
 import Image from "next/image";
-<<<<<<< HEAD
-import HeroPage from "@/components/blocks/hero/hero-page";
-import MarqueeCategories from "@/components/blocks/marquee-categories/marquee-categories";
-import ProductHome from "@/components/blocks/product/product-home";
-import DialogBoxHome from "@/components/blocks/dialog-box-home";
-import HotTwoProducts from "@/components/blocks/hot-two";
-
-export default function Home() {
-  
-  return (
-    <>
-     <DialogBoxHome />
-     <HeroPage />
-     <MarqueeCategories />
-     <HotTwoProducts />
-     <ProductHome />
-    </>
-  );
-}
-
-=======
 
 export default function Home() {
   return (
@@ -88,4 +67,3 @@ export default function Home() {
     </div>
   );
 }
->>>>>>> 0b679fdff9968f145c99fac7f797ffeffe5be686
