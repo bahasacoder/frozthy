@@ -19,7 +19,6 @@ import FormPrimaryAddress from "./form-primary-address";
 import FormSecondaryAddress from "./form-secondary-address";
 import YourOrderInfo from "./your-order-info";
 import PaymentMethods from "./payment-methods";
-import AddCustomerForm from "./form-add-customer"
 import ShippingMethods from "./shipping-methods";
 
 export default function BeliSajaPage() {
