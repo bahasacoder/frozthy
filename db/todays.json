@@ -1,0 +1,69 @@
+[
+  {
+    "id": 1003,
+    "nama": "ReactJS Frontend",
+    "harga": "165000000",
+    "kategori": "Mobil",
+    "deskripsi": "Daihatsu Move adalah mobil kecil yang cocok untuk penggunaan di perkotaan. Dengan desain yang kompak dan efisien, Daihatsu Move menawarkan kenyamanan dan kepraktisan dalam berkendara sehari-hari?",
+    "lokasi": "Jakarta",
+    "gambar": {
+      "url1": "https://example.com/daihatsu-move.jpg",
+      "url2": "https://example.com/daihatsu-move-interior.jpg",
+      "url3": "https://example.com/daihatsu-move-back.jpg",
+      "url4": "https://example.com/daihatsu-move-side.jpg"
+    },
+    "map": "object object ",
+    "createdAt": "2024-06-01T10:00:00Z",
+    "penjual": "John Doex",
+    "kontak": "0812345678900",
+    "alamat": "Jl. Sudirman No. 123, Jakarta",
+    "gambar1": "picture1satu.link",
+    "gambar2": "pria djua dsdu",
+    "gambar3": "pricrue wriga"
+  },
+  {
+    "id": 2002,
+    "nama": "NextJs Framework",
+    "harga": "120000000",
+    "kategori": "mobil",
+    "deskripsi": "mobil hitam putih",
+    "lokasi": "bone",
+    "gambar1": "-",
+    "gambar2": "-",
+    "gambar3": "-",
+    "map": "-",
+    "penjual": "hariu",
+    "kontak": "08923",
+    "alamat": "bajo"
+  },
+  {
+    "id": 3003,
+    "nama": "Github Free Hosting",
+    "harga": "135000000",
+    "kategori": "Github",
+    "deskripsi": "github repos nextj loprem lipsums",
+    "lokasi": "bone",
+    "gambar1": "git",
+    "gambar2": "git",
+    "gambar3": "git",
+    "map": "-",
+    "penjual": "harius",
+    "kontak": "08923",
+    "alamat": "bajo"
+  },
+  {
+    "id": 4004,
+    "nama": "PHP Framework",
+    "harga": "125000000",
+    "kategori": "Localhost",
+    "deskripsi": "PHP Codeignier Larvel loprem lipsums",
+    "lokasi": "bone",
+    "gambar1": "git",
+    "gambar2": "git",
+    "gambar3": "git",
+    "map": "-",
+    "penjual": "harius",
+    "kontak": "08923",
+    "alamat": "bajo"
+  }
+]
