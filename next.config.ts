@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
+<<<<<<< HEAD
   images: {
     remotePatterns: [
       {
@@ -24,6 +25,8 @@ const nextConfig: NextConfig = {
      
     ],
   },
+=======
+>>>>>>> 0b679fdff9968f145c99fac7f797ffeffe5be686
 };
 
 export default nextConfig;
