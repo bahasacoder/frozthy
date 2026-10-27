@@ -1,0 +1,90 @@
+[
+  {
+    "id": 1,
+    "name": "ayam",
+    "imgSrc": "https://cdn.jsdelivr.net/gh/free-whiteboard-online/Free-Erasorio-Alternative-for-Collaborative-Design@9d083315f938e6eabd384cc2dabd5c33555505d6/uploads/2026-02-11T14-13-42-800Z-c5n04a1li.png",
+    "imgAlt": "Ayam",
+    "description": "Paket Ayam Kampung utuh",
+    "userAvatar": "https://cdn.jsdelivr.net/gh/free-whiteboard-online/Free-Erasorio-Alternative-for-Collaborative-Design@caf3b27229a7a6040fd0da2db8d6acce5ef66604/uploads/2026-02-11T13-25-48-236Z-r4v4clqxn.jpg"
+  },
+  {
+    "id": 2,
+    "name": "daging",
+    "imgSrc": "https://cdn.jsdelivr.net/gh/free-whiteboard-online/Free-Erasorio-Alternative-for-Collaborative-Design@03df35933b7920efa6337a6c3775627938a37dce/uploads/2026-02-11T14-18-22-934Z-z2r7xcqan.png",
+    "imgAlt": "Daging",
+    "description": "Aneka potongan daging sapi dan ayam",
+    "userAvatar": "https://cdn.jsdelivr.net/gh/free-whiteboard-online/Free-Erasorio-Alternative-for-Collaborative-Design@caf3b27229a7a6040fd0da2db8d6acce5ef66604/uploads/2026-02-11T13-25-48-236Z-r4v4clqxn.jpg"
+  },
+  {
+    "id": 3,
+    "name": "sayuran",
+    "imgSrc": "https://cdn.jsdelivr.net/gh/free-whiteboard-online/Free-Erasorio-Alternative-for-Collaborative-Design@fc9e77bc8d51f219b0e7b9cca98abc908e8f73fc/uploads/2026-02-11T14-19-03-054Z-tiyxhpjc3.png",
+    "imgAlt": "Sayuran",
+    "description": "Aneka sayuran dengan kualitas terpantau",
+    "userAvatar": "https://cdn.jsdelivr.net/gh/free-whiteboard-online/Free-Erasorio-Alternative-for-Collaborative-Design@caf3b27229a7a6040fd0da2db8d6acce5ef66604/uploads/2026-02-11T13-25-48-236Z-r4v4clqxn.jpg"
+  },
+  {
+    "id": 4,
+    "name": "buahan",
+    "imgSrc": "https://cdn.jsdelivr.net/gh/free-whiteboard-online/Free-Erasorio-Alternative-for-Collaborative-Design@796ead94bb9b817760616171544df707c542cd11/uploads/2026-02-11T14-19-36-856Z-66don9pre.png",
+    "imgAlt": "Buahan",
+    "description": "Buahan musiman dan berkelanjutan",
+    "userAvatar": "https://cdn.jsdelivr.net/gh/free-whiteboard-online/Free-Erasorio-Alternative-for-Collaborative-Design@caf3b27229a7a6040fd0da2db8d6acce5ef66604/uploads/2026-02-11T13-25-48-236Z-r4v4clqxn.jpg"
+  },
+  {
+    "id": 5,
+    "name": "ikan",
+    "imgSrc": "https://cdn.jsdelivr.net/gh/free-whiteboard-online/Free-Erasorio-Alternative-for-Collaborative-Design@aa8d1d81672b448fcb838c8c99855f9bd3252af8/uploads/2026-02-11T14-20-21-277Z-36ks3b0zj.png",
+    "imgAlt": "Ikan",
+    "description": "Ikan segar dan ikan olahan",
+    "userAvatar": "https://cdn.jsdelivr.net/gh/free-whiteboard-online/Free-Erasorio-Alternative-for-Collaborative-Design@caf3b27229a7a6040fd0da2db8d6acce5ef66604/uploads/2026-02-11T13-25-48-236Z-r4v4clqxn.jpg"
+  },
+  {
+    "id": 6,
+    "name": "minuman",
+    "imgSrc": "https://cdn.jsdelivr.net/gh/free-whiteboard-online/Free-Erasorio-Alternative-for-Collaborative-Design@6ca15a4efb6997d5fe31874abfcf3756494bb2cb/uploads/2026-02-11T14-20-51-492Z-ptgs1pvf4.png",
+    "imgAlt": "Minuman",
+    "description": "Minuman Olahan dan minuman ber-sirup",
+    "userAvatar": "https://cdn.jsdelivr.net/gh/free-whiteboard-online/Free-Erasorio-Alternative-for-Collaborative-Design@caf3b27229a7a6040fd0da2db8d6acce5ef66604/uploads/2026-02-11T13-25-48-236Z-r4v4clqxn.jpg"
+  },
+  {
+    "id": 7,
+    "name": "rempah",
+    "imgSrc": "https://cdn.jsdelivr.net/gh/free-whiteboard-online/Free-Erasorio-Alternative-for-Collaborative-Design@c08e3e6ee91e0c8fd383ba948996f996f2cf56e7/uploads/2026-02-11T14-21-57-766Z-n8tthkppf.png",
+    "imgAlt": "Rempah",
+    "description": "Aneka Rempah dan Rimpang",
+    "userAvatar": "https://cdn.jsdelivr.net/gh/free-whiteboard-online/Free-Erasorio-Alternative-for-Collaborative-Design@caf3b27229a7a6040fd0da2db8d6acce5ef66604/uploads/2026-02-11T13-25-48-236Z-r4v4clqxn.jpg"
+  },
+  {
+    "id": 8,
+    "name": "suplemen",
+    "imgSrc": "https://cdn.jsdelivr.net/gh/free-whiteboard-online/Free-Erasorio-Alternative-for-Collaborative-Design@a43a6a8f5a26eb06674ac0937196b0823fe403b7/uploads/2026-02-11T14-11-52-491Z-g1rk9xcg5.png",
+    "imgAlt": "Suplement",
+    "description": "Suplemen dan Vitamin",
+    "userAvatar": "https://cdn.jsdelivr.net/gh/free-whiteboard-online/Free-Erasorio-Alternative-for-Collaborative-Design@caf3b27229a7a6040fd0da2db8d6acce5ef66604/uploads/2026-02-11T13-25-48-236Z-r4v4clqxn.jpg"
+  },
+  {
+    "id": 9,
+    "name": "cookies",
+    "imgSrc": "https://cdn.jsdelivr.net/gh/free-whiteboard-online/Free-Erasorio-Alternative-for-Collaborative-Design@9a6ac4e0bbaf9412a4056de8bc367f486cfbcd04/uploads/2026-02-11T14-22-41-494Z-va2twml1j.png",
+    "imgAlt": "Cookies",
+    "description": "Aneka kue, bolu, dan kukis",
+    "userAvatar": "https://cdn.jsdelivr.net/gh/free-whiteboard-online/Free-Erasorio-Alternative-for-Collaborative-Design@caf3b27229a7a6040fd0da2db8d6acce5ef66604/uploads/2026-02-11T13-25-48-236Z-r4v4clqxn.jpg"
+  },
+  {
+    "id": 10,
+    "name": "snack",
+    "imgSrc": "https://cdn.jsdelivr.net/gh/free-whiteboard-online/Free-Erasorio-Alternative-for-Collaborative-Design@12d4ff02d7c9a149f9dd705cc6897c6c01bc62f7/uploads/2026-02-11T14-23-21-052Z-acqwn5si0.png",
+    "imgAlt": "Snack dan Makanan Ringan atau cemilan",
+    "description": "Suplemen dan Vitamin",
+    "userAvatar": "https://cdn.jsdelivr.net/gh/free-whiteboard-online/Free-Erasorio-Alternative-for-Collaborative-Design@caf3b27229a7a6040fd0da2db8d6acce5ef66604/uploads/2026-02-11T13-25-48-236Z-r4v4clqxn.jpg"
+  },
+  {
+    "id": 11,
+    "name": "bibit",
+    "imgSrc": "https://cdn.jsdelivr.net/gh/free-whiteboard-online/Free-Erasorio-Alternative-for-Collaborative-Design@d1ce77fb694d4419abeff3afdba3d0a1fbfce3c9/uploads/2026-02-11T14-23-51-117Z-c6lsq3psv.png",
+    "imgAlt": "Bibit",
+    "description": "Bibit Tanaman",
+    "userAvatar": "https://cdn.jsdelivr.net/gh/free-whiteboard-online/Free-Erasorio-Alternative-for-Collaborative-Design@caf3b27229a7a6040fd0da2db8d6acce5ef66604/uploads/2026-02-11T13-25-48-236Z-r4v4clqxn.jpg"
+  }
+]

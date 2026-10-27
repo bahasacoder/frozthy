@@ -1,0 +1,41 @@
+[
+  {
+    "id": "d9b8e5c0-1a2b-4f3c-9e6d-7f8a9b0c1d2e",
+    "nama": "Daihatsu Move",
+    "harga": 150000000,
+    "kategori": "Mobil",
+    "deskripsi": "Daihatsu Move adalah mobil kecil yang cocok untuk penggunaan di perkotaan. Dengan desain yang kompak dan efisien, Daihatsu Move menawarkan kenyamanan dan kepraktisan dalam berkendara sehari-hari.",
+    "lokasi": "Jakarta",
+    "gambar": {
+      "url1": "https://example.com/daihatsu-move.jpg",
+      "url2": "https://example.com/daihatsu-move-interior.jpg",
+      "url3": "https://example.com/daihatsu-move-back.jpg",
+      "url4": "https://example.com/daihatsu-move-side.jpg"
+    },
+    "map": {
+      "latitude": -6.2,
+      "longitude": 106.816666
+    },
+    "createdAt": "2024-06-01T10:00:00Z",
+    "penjual": {
+      "nama": "John Doe",
+      "kontak": "081234567890",
+      "alamat": "Jl. Sudirman No. 123, Jakarta"
+    }
+  },
+  {
+    "nama": "honda satu",
+    "harga": "100000000",
+    "kategori": "mobil",
+    "deskripsi": "mobil hitam putih",
+    "lokasi": "bone",
+    "gambar1": "-",
+    "gambar2": "-",
+    "gambar3": "-",
+    "map": "-",
+    "penjual": "hariu",
+    "kontak": "08923",
+    "alamat": "bajo",
+    "id": 2
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "74e2",
+    "title": "First post",
+    "content": "What subscription plans do you offer?",
+    "createdAt": "2026-04-10 22:42"
+  },
+  {
+    "id": "8416",
+    "title": "Second post",
+    "content": "How does billing work?",
+    "createdAt": "2026-04-10 22:42"
+  },
+  {
+    "id": "095e",
+    "title": "Third post",
+    "content":  "How do I cancel my subscription?",
+    "createdAt": "2026-04-10 22:42"
+  },
+  {
+    "id": "f632",
+    "title": "Fourth post",
+    "content":  "Billing occurs automatically at the start of each billing cycle.",
+    "createdAt": "2026-04-10 22:42"
+  }
+]
