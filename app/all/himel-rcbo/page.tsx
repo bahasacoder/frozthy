@@ -56,8 +56,8 @@ export default function ProductDetailHimelRCBOPage() {
   const [hargaDiskon, setHargaDiskon] = useState<number>(0);
   const [idList, setIdList] = useState('');
   const [quantityValue, setQuantityValue] = useState<number>(1);
-  const totalHargaItem = hargaItem - hargaDiskon;
-  const [totalHargaList, setTotalHargaList] = useState<number>(totalHargaItem);  
+  const totalHargaItem = hargaItem*quantityValue;
+  const [totalHargaList, setTotalHargaList] = useState<number>((hargaItem-hargaDiskon)*quantityValue);  
   const [itemProduct, setItemProduct] = useState<any[]>([]);
 
   // Fungsi penanganan klik tombol beli untuk mencatat analytics atau redirect
