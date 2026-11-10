@@ -1,0 +1,105 @@
+.item {
+  display: grid;
+  grid-template-columns: 50px 1fr 100px 60px 28px;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  background-color: var(--background);
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.info {
+  overflow: hidden;
+}
+
+.name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.price {
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.quantity {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.quantityBtn {
+  background: none;
+  border: none;
+  width: 28px;
+  padding: 4px;
+  font-size: 16px;
+  color: var(--text-light);
+  cursor: pointer;
+}
+
+.quantityBtn:hover {
+  background-color: var(--border);
+  color: var(--text);
+}
+
+.quantityInput {
+  width: 40px;
+  border: none;
+  text-align: center;
+  padding: 4px;
+  font-size: 12px;
+  background: none;
+}
+
+.quantityInput::-webkit-outer-spin-button,
+.quantityInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.quantityInput[type='number'] {
+  -moz-appearance: textfield;
+}
+
+.total {
+  font-weight: 600;
+  color: var(--text);
+  text-align: right;
+}
+
+.removeBtn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: var(--danger);
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.removeBtn:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+}
