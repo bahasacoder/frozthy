@@ -1,0 +1,55 @@
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+// 1. Definisikan tipe data untuk state alamat primary
+export interface PrimaryAddressState {
+    id: string;
+    idAddressPrimary: string;
+    uniqueName: string;
+    firstNamePrimary: string;
+    lastNamePrimary: string;
+    emailPrimary: string;
+    phonePrimary: string;
+    companyNamePrimary: string;
+    addressPrimary: string;
+    desaPrimary: string;
+    kecamatanPrimary: string;
+    kabupatenPrimary: string;
+    postCodePrimary: string;
+    regionPrimary: string;
+}
+
+// 2. Nilai awal (Initial State)
+const initialState: PrimaryAddressState = {
+    id: '',
+    idAddressPrimary: '',
+    uniqueName: '',
+    firstNamePrimary: '',
+    lastNamePrimary: '',
+    emailPrimary: '',
+    phonePrimary: '',
+    companyNamePrimary: '',
+    addressPrimary: '',
+    desaPrimary: '',
+    kecamatanPrimary: '',
+    kabupatenPrimary: '',
+    postCodePrimary: '',
+    regionPrimary: '',
+};
+
+export const addressSlice = createSlice({
+    name: 'address',
+    initialState,
+    reducers: {
+        // Reducer untuk menyimpan seluruh data alamat dari formulir
+        savePrimaryAddress: (state, action: PayloadAction<PrimaryAddressState>) => {
+            return { ...state, ...action.payload };
+        },
+        // Reducer opsional jika ingin menghapus data alamat (reset)
+        resetPrimaryAddress: () => initialState,
+        
+    },
+});
+
+// Export aksi dan reducer
+export const { savePrimaryAddress, resetPrimaryAddress } = addressSlice.actions;
+export default addressSlice.reducer;
