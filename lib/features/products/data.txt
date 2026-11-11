@@ -1,0 +1,100 @@
+{
+"products": {
+	id:
+	idProduct;
+	sku
+	name:
+	slug:
+	category:
+	brand:
+	supplier
+	image:	
+	desc
+	created_at
+	updated_at
+	
+
+},
+// kemasan / item
+"kemasan" : {
+	id;
+	idKemasan:
+	idProduct;	
+	name:
+	hargaItem:
+	nilaidiskon;
+	hargadiskon;
+	stock;
+	wight:
+	dimensi:
+	size:
+	color:
+	status
+}
+}
+
+
+==========================================================
+{
+cart 
+	id cart
+id product
+id kemasan/item
+idlist / idcart
+product name
+itemname
+image
+hargaitem
+nilaidiskon
+hargadiskon
+hargaJadi
+quantity
+totalHargaJadi
+
+
+}
+cart 
+id cart
+id product
+id kemasan/item
+idlist / idcart
+
+product name
+itemname
+image
+hargaitem
+nilaidiskon
+hargadiskon
+hargaJadi
+quantity
+totalHargaJadi
+
+}
+
+checkout
+{
+	
+idcheckout
+id product / supplier
+id kemasan/item
+idlist / id cart
+
+}
+
+
+beli/invoice
+
+
+yang dikirim ke cart
+
+id pengerjaan to cart
+id item diambli
+id list dibuat
+
+namaproduk
+imageproduk
+harga item
+harga diskon
+nilai discon
+nilai quantity
+total harga list
