@@ -19,10 +19,15 @@ const nextConfig: NextConfig = {
       hostname: 'example.com',
       pathname: '/images/**',
       },
-       {
+      {
       protocol: 'https',
       hostname: 'fakestoreapi.com',
       pathname: '/img/**',
+      },
+      {
+      protocol: 'https',
+      hostname: 'cdn.shadcnstudio.com',
+      pathname: '/ss-assets/**',
       },
     ],
   },
