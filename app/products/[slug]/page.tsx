@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ProductDetailClient from "./ProductDetailClient";
 
@@ -88,6 +89,42 @@ export async function generateStaticParams() {
 
 interface PageProps {
   params: Promise<{ slug: string }>;
+}
+
+// 3. Fungsi Metadata Dinamis untuk SEO & Social Media Preview
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const resolvedParams = await params;
+  const product = allProducts.find(
+    (p) => p.productSlug === resolvedParams.slug
+  );
+
+  // Metadata cadangan jika produk tidak ditemukan
+  if (!product) {
+    return {
+      title: "Produk Tidak Ditemukan",
+      description: "Maaf, produk yang Anda cari tidak tersedia.",
+    };
+  }
+
+  // Menghapus tanda bintang (*) markdown pada teaser agar bersih di tag meta
+  const cleanDescription = product.teaser.replace(/\*/g, "");
+
+  return {
+    title: `${product.productName} | Katalog Produk`,
+    description: cleanDescription,
+    keywords: [product.productName, ...product.category.split(", "), "beli online"],
+    openGraph: {
+      title: product.productName,
+      description: cleanDescription,
+      type: "website",
+      images: [
+        {
+          url: `/images/${product.productImage}`, // Sesuaikan dengan folder gambar publik Anda
+          alt: product.productName,
+        },
+      ],
+    },
+  };
 }
 
 export default async function ProductDetailPage({ params }: PageProps) {
