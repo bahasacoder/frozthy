@@ -1,6 +1,21 @@
 {
   "products": [
     {
+      "idProduct": "PROD-269062b1-c936-440c-b85c-023ad3b4709e",
+      "productName": "Ayam Kampung Pejantan",
+      "productSlug": "ayam-kampung-pejantan",
+      "productImage": ["ayam-kampung-pejantan.jpg"],
+      "category": ["daging", "meat"],
+      "teaser": "Para pemilik rumah makan dan katering banyak yang beralih ke Ayam Kampung Pejantan karena serat dagingnya yang kokoh namun tetap lembut saat digigit. Mau diungkep bumbu kuning, dibakar madu, atau dijadikan sop bening hangat, rasa gurih aslinya langsung keluar tanpa perlu banyak penyedap!",
+      "descriptions": "Daging kesat, gurih khas ayam kampung, rendah lemak, dan cepat empuk. Cocok buat stok lauk di kulkas atau masak spesial hari ini.",
+      "specification": "Kenalan dulu sama Ayam Kampung Pejantan! 🐓✨",
+      "satuan": "ekor",
+      "productItems": [
+        { "idItem": "ITEM-6c2070ba", "namaItem": "Spesial", "imageItem": ["running-40.jpg"], "size": "1200", "unit": "ekor", "netto": "999", "dimensi": "25cm x 25cm x 25cm", "hargaItem": 80000, "hargaDiskon": 0, "nilaiDiskon": 0, "stokItem": 5 },
+        { "idItem": "ITEM-497041ff", "namaItem": "Eksklusif", "imageItem": ["running-40.jpg"], "size": "1500", "unit": "ekor", "netto": "1000", "dimensi": "25cm x 25cm x 25cm", "hargaItem": 100000, "hargaDiskon": 0, "nilaiDiskon": 0, "stokItem": 4 }
+      ]
+    },
+    {
       "idProduct": "PROD-3650e2eb-66d5-4da1-9cfb-146e83b3a214",
       "productName": "Indukan AKA Betina",
       "productSlug": "indukan-aka-betina",
