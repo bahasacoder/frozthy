@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { Product, ProductItem } from "@/types/product";
+// import { Product, ProductItem } from "@/types/product";
+import type { Product, ProductItem } from "./page";
 import { useAppDispatch } from "@/lib/hooks";
 import { addItemToCart } from "@/lib/features/cart/cartSlice";
 
