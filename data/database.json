@@ -11,8 +11,8 @@
       "specification": "Kenalan dulu sama Ayam Kampung Pejantan! 🐓✨",
       "satuan": "ekor",
       "productItems": [
-        { "idItem": "ITEM-6c2070ba", "namaItem": "Spesial", "imageItem": ["running-40.jpg"], "size": "1200", "unit": "ekor", "netto": "999", "dimensi": "25cm x 25cm x 25cm", "hargaItem": 80000, "hargaDiskon": 0, "nilaiDiskon": 0, "stokItem": 5 },
-        { "idItem": "ITEM-497041ff", "namaItem": "Eksklusif", "imageItem": ["running-40.jpg"], "size": "1500", "unit": "ekor", "netto": "1000", "dimensi": "25cm x 25cm x 25cm", "hargaItem": 100000, "hargaDiskon": 0, "nilaiDiskon": 0, "stokItem": 4 }
+        { "idItem": "ITEM-6c2070ba", "namaItem": "Spesial", "imageItem": ["https://iili.io/oHkHxvs.md.jpg", "https://iili.io/oHk2Jyu.md.jpg"], "size": "1200", "unit": "ekor", "netto": "999", "dimensi": "25cm x 25cm x 25cm", "hargaItem": 80000, "hargaDiskon": 0, "nilaiDiskon": 0, "stokItem": 5 },
+        { "idItem": "ITEM-497041ff", "namaItem": "Eksklusif", "imageItem": ["https://iili.io/oHk3XOg.md.jpg", "https://iili.io/oHk3GUP.md.jpg"], "size": "1500", "unit": "ekor", "netto": "1000", "dimensi": "25cm x 25cm x 25cm", "hargaItem": 100000, "hargaDiskon": 0, "nilaiDiskon": 0, "stokItem": 4 }
       ]
     },
     {
