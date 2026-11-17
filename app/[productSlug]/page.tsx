@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import database from "@/data/database.json"; // Sesuaikan path database.json Anda
 import { Product } from "@/types/product";
@@ -16,7 +17,8 @@ interface PageProps {
   params: Promise<{ productSlug: string }>;
 }
 
-export default async function ProductDetailPage({ params }: PageProps) {
+// 1. Komponen terpisah untuk menangani await params dan pencarian produk
+async function ProductLoader({ params }: { params: Promise<{ productSlug: string }> }) {
   const { productSlug } = await params;
 
   const product = allProducts.find(
@@ -27,10 +29,17 @@ export default async function ProductDetailPage({ params }: PageProps) {
     notFound();
   }
 
+  return <ProductDetailClient product={product} />;
+}
+
+// 2. Halaman utama dibuat sinkron dan membungkus ProductLoader dengan Suspense
+export default function ProductDetailPage({ params }: PageProps) {
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100">
-        <ProductDetailClient product={product} />
+    <div className="min-h-screen">
+      <div className="w-full mx-auto rounded-2xl shadow-sm overflow-hidden">
+        <Suspense fallback={<div className="p-8 text-center text-gray-500">Memuat detail produk...</div>}>
+          <ProductLoader params={params} />
+        </Suspense>
       </div>
     </div>
   );

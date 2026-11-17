@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
+import path from "path/win32";
 
 const nextConfig: NextConfig = {
   /* config options here */
+  outputFileTracingRoot: path.join(__dirname, '../../'),
   cacheComponents: true,
   partialPrefetching: true,
   turbopack: {
