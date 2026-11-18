@@ -53,8 +53,8 @@ export default function ProductDetailClient({
   const handleSelectVariant = (item: ProductItem) => {
     setSelectedItem(item);
     setQuantity(item.stokItem > 0 ? 1 : 0);
-    if (item.imageItem?.[0]) {
-      setActiveImage(item.imageItem[0]);
+    if (item.imagesItem?.[0]) {
+      setActiveImage(item.imagesItem[0]);
     }
   };
 
