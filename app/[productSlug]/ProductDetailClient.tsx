@@ -34,8 +34,8 @@ export default function ProductDetailClient({
   // Kumpulkan semua gambar (gambar utama produk + gambar dari tiap varian)
   const galleryImages = Array.from(
     new Set([
-      ...(product.productImage || []),
-      ...product.productItems.flatMap((item) => item.imageItem || []),
+      ...(product.productImages || []),
+      ...product.productItems.flatMap((item) => item.imagesItem || []),
     ])
   );
 
@@ -67,8 +67,8 @@ export default function ProductDetailClient({
         idList: `${product.idProduct}-${selectedItem.idItem}-${Date.now()}`,
         idItem: selectedItem.idItem,
         productName: `${product.productName} - ${selectedItem.namaItem}`,
-        productImage:
-          selectedItem.imageItem?.[0] ?? product.productImage?.[0] ?? "",
+        productImages:
+          selectedItem.imagesItem?.[0] ?? product.productImages?.[0] ?? "",
         hargaItem: selectedItem.hargaItem,
         hargaDiskon: selectedItem.hargaDiskon,
         nilaiDiskon: selectedItem.nilaiDiskon,
