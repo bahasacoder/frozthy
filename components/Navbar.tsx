@@ -1,8 +1,8 @@
 "use client";
-
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Moon, Search, ShoppingBag, Sun } from "lucide-react";
+import Link from "next/link";
 
 interface NavbarProps {
   isDarkMode: boolean;
@@ -12,6 +12,17 @@ interface NavbarProps {
 export default function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const cartCount = 0;
+
+  // Definisikan daftar menu beserta rute URL-nya
+const navItems = [
+  { label: "Beranda", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Koleksi", href: "/koleksi" },
+  { label: "Contact Us", href: "/contact" },
+  { label: "Recipes", href: "/recipes" },
+  { label: "Today's", href: "/todays" },
+];
+  
 
   return (
     <nav
@@ -42,20 +53,20 @@ export default function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
         </motion.div>
 
         <div
-          className={`hidden md:flex items-center gap-8 text-sm font-medium tracking-wide ${
+        className={`hidden md:flex items-center gap-8 text-sm font-medium tracking-wide ${
             isDarkMode ? "text-gray-400" : "text-gray-600"
-          }`}
+        }`}
         >
-          {["Beranda", "Koleksi", "Lab AI", "Jurnal"].map((item) => (
-            <a
-              key={item}
-              href="#"
-              className="hover:text-cyan-500 transition-colors duration-200 relative group py-2"
-            >
-              {item}
-              <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-cyan-500 transition-all duration-300 group-hover:w-full" />
-            </a>
-          ))}
+            {navItems.map((item) => (
+                <Link
+                key={item.href}
+                href={item.href}
+                className="hover:text-cyan-500 transition-colors duration-200 relative group py-2"
+                >
+                {item.label}
+                <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-cyan-500 transition-all duration-300 group-hover:w-full" />
+                </Link>
+            ))}
         </div>
 
         <div className="flex items-center gap-2">
