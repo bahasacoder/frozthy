@@ -1,8 +1,8 @@
 "use client";
-
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Moon, Search, ShoppingBag, Sun } from "lucide-react";
+import Link from "next/link";
 
 interface NavbarProps {
   isDarkMode: boolean;
@@ -12,6 +12,17 @@ interface NavbarProps {
 export default function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const cartCount = 0;
+
+  // Definisikan daftar menu beserta rute URL-nya
+const navItems = [
+  { label: "Beranda", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Koleksi", href: "/#" },
+  { label: "Contact Us", href: "/contact" },
+  { label: "Recipes", href: "/#" },
+  { label: "Today's", href: "/#" },
+];
+  
 
   return (
     <nav
