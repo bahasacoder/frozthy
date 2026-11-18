@@ -61,9 +61,9 @@
       "productItems": [
         { "idItem": "ITEM-4169fce8", "namaItem": "3 ekor", "imageItem": ["running-40.jpg"], "size": "3", "unit": "ekor", "netto": "3", "dimensi": "15cm x 15cm x 15cm", "hargaItem": 30000, "hargaDiskon": 0, "nilaiDiskon": 0, "stokItem": 10 },
         { "idItem": "ITEM-1fb54640", "namaItem": "5 ekor", "imageItem": ["running-40.jpg"], "size": "5", "unit": "ekor", "netto": "5", "dimensi": "15cm x 15cm x 15cm", "hargaItem": 50000, "hargaDiskon": 0, "nilaiDiskon": 0, "stokItem": 8 },
-        { "idItem": "ITEM-ebface", "namaItem": "10 ekor", "imageItem": ["running-40.jpg"], "size": "10", "unit": "ekor", "netto": "10", "dimensi": "15cm x 15cm x 15cm", "hargaItem": 100000, "hargaDiskon": 10, "nilaiDiskon": 0, "stokItem": 5 },
-        { "idItem": "ITEM-4f1e51", "namaItem": "20 ekor", "imageItem": ["running-40.jpg"], "size": "20", "unit": "ekor", "netto": "20", "dimensi": "15cm x 15cm x 15cm", "hargaItem": 200000, "hargaDiskon": 20, "nilaiDiskon": 0, "stokItem": 4 },
-        { "idItem": "ITEM-b57d4f", "namaItem": "50 ekor", "imageItem": ["running-40.jpg"], "size": "50", "unit": "ekor", "netto": "50", "dimensi": "15cm x 15cm x 15cm", "hargaItem": 500000, "hargaDiskon": 30, "nilaiDiskon": 0, "stokItem": 2 }
+        { "idItem": "ITEM-ebface", "namaItem": "10 ekor", "imageItem": ["running-40.jpg"], "size": "10", "unit": "ekor", "netto": "10", "dimensi": "15cm x 15cm x 15cm", "hargaItem": 100000, "hargaDiskon": 10000, "nilaiDiskon": 10, "stokItem": 5 },
+        { "idItem": "ITEM-4f1e51", "namaItem": "20 ekor", "imageItem": ["running-40.jpg"], "size": "20", "unit": "ekor", "netto": "20", "dimensi": "15cm x 15cm x 15cm", "hargaItem": 200000, "hargaDiskon": 40000, "nilaiDiskon": 20, "stokItem": 4 },
+        { "idItem": "ITEM-b57d4f", "namaItem": "50 ekor", "imageItem": ["running-40.jpg"], "size": "50", "unit": "ekor", "netto": "50", "dimensi": "15cm x 15cm x 15cm", "hargaItem": 500000, "hargaDiskon": 150000, "nilaiDiskon": 30, "stokItem": 2 }
       ]
     },
     {
