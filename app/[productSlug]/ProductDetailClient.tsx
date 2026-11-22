@@ -34,8 +34,8 @@ export default function ProductDetailClient({
   // Kumpulkan semua gambar (gambar utama produk + gambar dari tiap varian)
   const galleryImages = Array.from(
     new Set([
-      ...(product.productImage || []),
-      ...product.productItems.flatMap((item) => item.imageItem || []),
+      ...(product.productImages || []),
+      ...product.productItems.flatMap((item) => item.imagesItem || []),
     ])
   );
 
@@ -53,8 +53,8 @@ export default function ProductDetailClient({
   const handleSelectVariant = (item: ProductItem) => {
     setSelectedItem(item);
     setQuantity(item.stokItem > 0 ? 1 : 0);
-    if (item.imageItem?.[0]) {
-      setActiveImage(item.imageItem[0]);
+    if (item.imagesItem?.[0]) {
+      setActiveImage(item.imagesItem[0]);
     }
   };
 
@@ -67,8 +67,8 @@ export default function ProductDetailClient({
         idList: `${product.idProduct}-${selectedItem.idItem}-${Date.now()}`,
         idItem: selectedItem.idItem,
         productName: `${product.productName} - ${selectedItem.namaItem}`,
-        productImage:
-          selectedItem.imageItem?.[0] ?? product.productImage?.[0] ?? "",
+        productImages:
+          selectedItem.imagesItem?.[0] ?? product.productImages?.[0] ?? "",
         hargaItem: selectedItem.hargaItem,
         hargaDiskon: selectedItem.hargaDiskon,
         nilaiDiskon: selectedItem.nilaiDiskon,
@@ -150,7 +150,7 @@ export default function ProductDetailClient({
         <div className="space-y-4">
           {/* Kategori */}
           <div className="flex flex-wrap gap-2">
-            {product.category.map((cat) => (
+            {product.categories.map((cat) => (
               <span
                 key={cat}
                 className={`rounded-full px-3 py-1 text-xs font-medium capitalize transition-colors ${

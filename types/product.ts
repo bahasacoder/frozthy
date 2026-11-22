@@ -1,7 +1,7 @@
 export interface ProductItem {
   idItem: string;
   namaItem: string;
-  imageItem: string[];
+  imagesItem: string[];
   size: string;
   unit: string;
   netto: string;
@@ -16,8 +16,8 @@ export interface Product {
   idProduct: string;
   productName: string;
   productSlug: string;
-  productImage: string[];
-  category: string[];
+  productImages: string[];
+  categories: string[];
   teaser: string;
   descriptions: string;
   specification: string;
