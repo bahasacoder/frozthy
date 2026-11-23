@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, Heart, Search, Star, ArrowRight, X, Sun, Moon } from 'lucide-react';
 import Navbar from '@/components/Navbar';
+import ProductGridHome from '@/components/blocks/ProductGridHome';
 
 // Mock Data untuk Produk dengan visual riil
 const PRODUCTS = [
@@ -57,14 +58,16 @@ export default function ModernEcommerceHome() {
     : PRODUCTS.filter(p => p.category === activeCategory);
 
   return (
-    <div className={`min-h-screen font-sans selection:bg-cyan-500 selection:text-black overflow-x-hidden transition-colors duration-700 ${
-      isDarkMode ? 'bg-[#0b0c10] text-gray-100' : 'bg-gray-50 text-gray-900'
-    }`}>
+    <div
+      className={`min-h-screen w-full max-w-full flex flex-col font-sans selection:bg-cyan-500 selection:text-black overflow-x-clip transition-colors duration-700 ${
+        isDarkMode ? "bg-[#0b0c10] text-gray-100" : "bg-gray-50 text-gray-900"
+      }`}
+    >
       
-      {/* 1. NAVIGATION BAR */}
+      {/* 1. NAVIGATION BAR */} 
       <Navbar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
       {/* 2. CINEMATIC HERO SECTION */}
-      <header className="relative h-screen flex items-center justify-center overflow-hidden">
+      <header className="relative h-screen flex items-center justify-center overflow-visible mt-10">
         <motion.div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-fixed transform scale-105"
           style={{ 
@@ -85,16 +88,16 @@ export default function ModernEcommerceHome() {
           <span className={`inline-block text-xs uppercase tracking-[0.4em] font-semibold px-4 py-2 rounded-full border backdrop-blur-md ${
             isDarkMode ? 'text-cyan-400 bg-cyan-950/40 border-cyan-800/50' : 'text-cyan-700 bg-cyan-50/60 border-cyan-200'
           }`}>
-            Masa Depan Estetika Retail
+            Kebutuhan Harian Anda, Kini Lebih Mudah.
           </span>
           <h1 className={`text-5xl md:text-8xl font-extrabold tracking-tight leading-none ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-            Desain Murni. <br />
+            Kesegaran Alam <br />
             <span className="bg-gradient-to-r from-cyan-500 via-purple-500 to-fuchsia-500 bg-clip-text text-transparent">
-              Performa Eksklusif.
+              Hadir Di Meja Anda.
             </span>
           </h1>
           <p className={`text-base md:text-xl max-w-xl mx-auto font-light leading-relaxed ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-            Kurasi perangkat premium dengan ekosistem pintar, dirancang khusus untuk meningkatkan produktivitas digital harian Anda.
+            Belanja kebutuhan pangan segar, olahan beku alami, dan produk  UMKM, serta Kebutuhan Harian Rumah Tangga.
           </p>
           <div className="pt-6 flex justify-center">
             <motion.button 
@@ -104,7 +107,7 @@ export default function ModernEcommerceHome() {
                 isDarkMode ? 'bg-white text-black hover:bg-cyan-400' : 'bg-black text-white hover:bg-cyan-600'
               }`}
             >
-              <span>Jelajahi Lab</span>
+              <span>Ayo Shopping</span>
               <ArrowRight className="w-4 h-4" />
             </motion.button>
           </div>
@@ -139,7 +142,18 @@ export default function ModernEcommerceHome() {
             ))}
           </div>
         </div>
-        </main>
+
+        {/* Product Grid */}
+        <div className="w-full">
+            <AnimatePresence>
+              <motion.div 
+                key={activeCategory}
+              >
+                <ProductGridHome />
+              </motion.div>
+            </AnimatePresence>
         </div>
+      </main>
+      </div>
   );
 }

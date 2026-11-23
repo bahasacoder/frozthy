@@ -3,6 +3,8 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Moon, Search, ShoppingBag, Sun } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
+import PbcLogo from "@/public/assets/pbc-logo.svg";
 
 interface NavbarProps {
   isDarkMode: boolean;
@@ -41,14 +43,14 @@ const navItems = [
             whileHover={{ rotate: 12 }}
             className="w-10 h-10 bg-gradient-to-tr from-cyan-500 to-fuchsia-500 rounded-xl flex items-center justify-center shadow-lg"
           >
-            <ShoppingBag className="w-5 h-5 text-black" />
+            <Image src={PbcLogo} alt='PasarBone Logo' width={30} height={30} />
           </motion.div>
           <span
             className={`font-bold text-xl tracking-wider transition-colors ${
               isDarkMode ? "text-white" : "text-black"
             }`}
           >
-            NEXUS.<span className="text-cyan-500">LAB</span>
+            Pasar<span className="text-cyan-500">Bone</span>
           </span>
         </motion.div>
 
