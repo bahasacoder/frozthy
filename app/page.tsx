@@ -120,7 +120,7 @@ export default function ModernEcommerceHome() {
         <div className={`flex flex-col md:flex-row md:items-end justify-between gap-6 border-b pb-8 ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
           <div>
             <span className="text-xs text-cyan-500 tracking-widest font-bold uppercase block mb-2">// KATALOG UNGGULAN</span>
-            <h2 className={`text-3xl md:text-5xl font-bold tracking-tight ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Produk Lab Terkini.</h2>
+            <h2 className={`text-3xl md:text-5xl font-bold tracking-tight ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Produk Terkini.</h2>
           </div>
           
          {/* Tab Filter (Dibenahi & Responsif) */}
