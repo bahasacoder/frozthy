@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, Heart, Search, Star, ArrowRight, X, Sun, Moon } from 'lucide-react';
 import Navbar from '@/components/Navbar';
-import ProductGridHome from '@/components/blocks/ProductGridHome';
+import ProductGridProd from '@/components/blocks/ProductGridProd';
 
 // Mock Data untuk Produk dengan visual riil
 const PRODUCTS = [
@@ -149,7 +149,7 @@ export default function ModernEcommerceHome() {
               <motion.div 
                 key={activeCategory}
               >
-                <ProductGridHome />
+                <ProductGridProd />
               </motion.div>
             </AnimatePresence>
         </div>

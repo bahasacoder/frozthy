@@ -39,13 +39,13 @@
       "teaser": "Sukses panen ayam kampung dimulai dari memilih bibit yang tepat! Temukan bibit terbaik anda di tempat kami. Daya tahan tubuh kuat, cepat beradaptasi, dan siap dibudidayakan untuk hasil panen maksimal.",
       "descriptions": "Anakan / Bibit Ayam Kampung Asli berkualitas premium langsung dari peternakan.",
       "specification": "Isi bervariasi, Kemasan aman",
-      "satuan": "gram",
+      "satuan": "ekor",
       "productItems": [
-        { "idItem": "ITEM-543d84bd", "namaItem": "100 gr", "imagesItem": ["running-40.jpg"], "size": "100", "unit": "gram", "netto": "100", "dimensi": "15cm x 15cm x 15cm", "hargaItem": 15000, "hargaDiskon": 0, "nilaiDiskon": 0, "stokItem": 15, "fitur": ["premium"] },
-        { "idItem": "ITEM-896e4e44", "namaItem": "200 gr", "imagesItem": ["running-40.jpg"], "size": "200", "unit": "gram", "netto": "200", "dimensi": "15cm x 15cm x 15cm", "hargaItem": 20000, "hargaDiskon": 0, "nilaiDiskon": 0, "stokItem": 15, "fitur": ["premium"] },  
-        { "idItem": "ITEM-a9ddd059", "namaItem": "300 gr", "imagesItem": ["running-40.jpg"], "size": "300", "unit": "gram", "netto": "300", "dimensi": "15cm x 15cm x 15cm", "hargaItem": 25000, "hargaDiskon": 0, "nilaiDiskon": 0, "stokItem": 15, "fitur": ["premium"] },
-        { "idItem": "ITEM-4e61f19f", "namaItem": "400 gr", "imagesItem": ["running-40.jpg"], "size": "400", "unit": "gram", "netto": "400", "dimensi": "15cm x 15cm x 15cm", "hargaItem": 30000, "hargaDiskon": 0, "nilaiDiskon": 0, "stokItem": 15, "fitur": ["premium"] },
-        { "idItem": "ITEM-45abe4fa", "namaItem": "500 gr", "imagesItem": ["running-40.jpg"], "size": "500", "unit": "gram", "netto": "500", "dimensi": "15cm x 15cm x 15cm", "hargaItem": 35000, "hargaDiskon": 0, "nilaiDiskon": 0, "stokItem": 15, "fitur": ["premium"] }
+        { "idItem": "ITEM-543d84bd", "namaItem": "100 gr", "imagesItem": ["running-40.jpg"], "size": "100", "unit": "ekor", "netto": "100", "dimensi": "15cm x 15cm x 15cm", "hargaItem": 15000, "hargaDiskon": 0, "nilaiDiskon": 0, "stokItem": 15, "fitur": ["premium"] },
+        { "idItem": "ITEM-896e4e44", "namaItem": "200 gr", "imagesItem": ["running-40.jpg"], "size": "200", "unit": "ekor", "netto": "200", "dimensi": "15cm x 15cm x 15cm", "hargaItem": 20000, "hargaDiskon": 0, "nilaiDiskon": 0, "stokItem": 15, "fitur": ["premium"] },  
+        { "idItem": "ITEM-a9ddd059", "namaItem": "300 gr", "imagesItem": ["running-40.jpg"], "size": "300", "unit": "ekor", "netto": "300", "dimensi": "15cm x 15cm x 15cm", "hargaItem": 25000, "hargaDiskon": 0, "nilaiDiskon": 0, "stokItem": 15, "fitur": ["premium"] },
+        { "idItem": "ITEM-4e61f19f", "namaItem": "400 gr", "imagesItem": ["running-40.jpg"], "size": "400", "unit": "ekor", "netto": "400", "dimensi": "15cm x 15cm x 15cm", "hargaItem": 30000, "hargaDiskon": 0, "nilaiDiskon": 0, "stokItem": 15, "fitur": ["premium"] },
+        { "idItem": "ITEM-45abe4fa", "namaItem": "500 gr", "imagesItem": ["running-40.jpg"], "size": "500", "unit": "ekor", "netto": "500", "dimensi": "15cm x 15cm x 15cm", "hargaItem": 35000, "hargaDiskon": 0, "nilaiDiskon": 0, "stokItem": 15, "fitur": ["premium"] }
       ]
     },
     {
@@ -57,7 +57,7 @@
       "teaser": "Bibit Unggul DOC Ayam Kampung Asli – Sehat, Lincah, dan Siap Tumbuh. Dihasilkan dari indukan pilihan yang dipelihara secara alami tanpa hormon pertumbuhan maupun bahan kimia berbahaya.",
       "descriptions": "Mulai kesuksesan ternak Anda dari bibit terbaik. DOC Ayam Kampung kami ditetaskan dari indukan pilihan yang dipelihara secara alami tanpa hormon pertumbuhan maupun bahan kimia berbahaya.",
       "specification": "Isi bervariasi, Kemasan aman",
-      "satuan": "gram",
+      "satuan": "ekor",
       "productItems": [
         { "idItem": "ITEM-4169fce8", "namaItem": "3 ekor", "imagesItem": ["running-40.jpg"], "size": "3", "unit": "ekor", "netto": "3", "dimensi": "15cm x 15cm x 15cm", "hargaItem": 30000, "hargaDiskon": 0, "nilaiDiskon": 0, "stokItem": 10, "fitur": ["premium"] },
         { "idItem": "ITEM-1fb54640", "namaItem": "5 ekor", "imagesItem": ["running-40.jpg"], "size": "5", "unit": "ekor", "netto": "5", "dimensi": "15cm x 15cm x 15cm", "hargaItem": 50000, "hargaDiskon": 0, "nilaiDiskon": 0, "stokItem": 8, "fitur": ["premium"] },
@@ -75,6 +75,7 @@
       "teaser": "Dihasilkan langsung dari sistem peternakan berkelanjutan (*free-range*) tanpa kurungan stres. Kaya akan kandungan Omega-3 alami, vitamin esensial, serta memiliki warna kuning telur oranye pekat yang khas. Higienis dan disortir langsung menggunakan tangan demi kualitas masakan terbaik.",
       "descriptions": "Telur berkualitas premium langsung dari peternakan.",
       "specification": "Isi bervariasi, Kemasan aman",
+      "satuan": "butir",
       "productItems": [
         { "idItem": "ITEM-2f6eb901", "namaItem": "1 butir", "imagesItem": ["running-40.jpg"], "size": "1 butir", "unit": "butir", "netto": "1", "dimensi": "5cm x 5cm x 5cm", "hargaItem": 3000, "hargaDiskon": 300, "nilaiDiskon": 10, "stokItem": 15, "fitur": ["premium"] },
         { "idItem": "ITEM-bf6eb902", "namaItem": "6 butir", "imagesItem": ["running-40.jpg"], "size": "6 butir", "unit": "butir", "netto": "6", "dimensi": "15cm x 15cm x 5cm", "hargaItem": 15000, "hargaDiskon": 1500, "nilaiDiskon": 10, "stokItem": 15, "fitur": ["premium"] },
@@ -93,11 +94,12 @@
       "teaser": "Daging Ayam Kampung Asli yang dipotong segar dari peternakan langsung dan diproses secara cepat kemudian dibekukan sehingga kualitas daging ayam tetap terjaga.",
       "descriptions": "Daging beku segar tanpa bahan pengawet.",
       "specification": "Suhu penyimpanan -18 Derajat Celcius",
+      "satuan": "pcs",
       "productItems": [
-        { "idItem": "ITEM-fe264eb2", "namaItem": "250 Gram", "imagesItem": ["running-40.jpg"], "size": "250 gr", "unit": "Gram", "netto": "250", "dimensi": "15cm x 15cm x 15cm", "hargaItem": 30000, "hargaDiskon": 0, "nilaiDiskon": 0, "stokItem": 15, "fitur": ["premium"] },
-        { "idItem": "ITEM-beb2df10", "namaItem": "500 Gram", "imagesItem": ["running-40.jpg"], "size": "500 gr", "unit": "Gram", "netto": "500", "dimensi": "15cm x 15cm x 15cm", "hargaItem": 50000, "hargaDiskon": 0, "nilaiDiskon": 0, "stokItem": 15, "fitur": ["premium"] },
-        { "idItem": "ITEM-c24df728", "namaItem": "750 Gram", "imagesItem": ["running-40.jpg"], "size": "750 gr", "unit": "Gram", "netto": "750", "dimensi": "20cm x 20cm x 20cm", "hargaItem": 75000, "hargaDiskon": 15000, "nilaiDiskon": 20, "stokItem": 15, "fitur": ["premium"] },
-        { "idItem": "ITEM-d24df704", "namaItem": "1000 Gram", "imagesItem": ["running-40.jpg"], "size": "1000 gr", "unit": "Gram", "netto": "1000", "dimensi": "20cm x 20cm x 20cm", "hargaItem": 100000, "hargaDiskon": 20000, "nilaiDiskon": 20, "stokItem": 15, "fitur": ["premium"] }
+        { "idItem": "ITEM-fe264eb2", "namaItem": "250 Gram", "imagesItem": ["running-40.jpg"], "size": "250 gr", "unit": "pcs", "netto": "250", "dimensi": "15cm x 15cm x 15cm", "hargaItem": 30000, "hargaDiskon": 0, "nilaiDiskon": 0, "stokItem": 15, "fitur": ["premium"] },
+        { "idItem": "ITEM-beb2df10", "namaItem": "500 Gram", "imagesItem": ["running-40.jpg"], "size": "500 gr", "unit": "pcs", "netto": "500", "dimensi": "15cm x 15cm x 15cm", "hargaItem": 50000, "hargaDiskon": 0, "nilaiDiskon": 0, "stokItem": 15, "fitur": ["premium"] },
+        { "idItem": "ITEM-c24df728", "namaItem": "750 Gram", "imagesItem": ["running-40.jpg"], "size": "750 gr", "unit": "pcs", "netto": "750", "dimensi": "20cm x 20cm x 20cm", "hargaItem": 75000, "hargaDiskon": 15000, "nilaiDiskon": 20, "stokItem": 15, "fitur": ["premium"] },
+        { "idItem": "ITEM-d24df704", "namaItem": "1000 Gram", "imagesItem": ["running-40.jpg"], "size": "1000 gr", "unit": "pcs", "netto": "1000", "dimensi": "20cm x 20cm x 20cm", "hargaItem": 100000, "hargaDiskon": 20000, "nilaiDiskon": 20, "stokItem": 15, "fitur": ["premium"] }
       ]
     },
     {
