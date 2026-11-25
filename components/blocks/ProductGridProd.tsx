@@ -177,6 +177,15 @@ export default function ProductGridProd({
                           </li>
                         </>
                       )}
+                      {product.categories.map((cat) => (
+                      <span
+                        key={cat}
+                        className={`inline-flex items-center capitalize truncate ${isPremium ? "text-green-600 font-semibold" : ""    
+                        }`}
+                      >
+                        {cat}
+                      </span>
+                    ))}
                       {isPremium && (
                         <li className="ml-1 shrink-0">
                           <BadgeCheck

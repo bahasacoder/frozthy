@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import Image from "next/image";
 import { Product, ProductItem } from "@/types/product";
 // import type { Product, ProductItem } from "./page";
 import { useAppDispatch } from "@/lib/hooks";
@@ -77,6 +78,29 @@ export default function ProductDetailClient({
       } as Parameters<typeof addItemToCart>[0])
     );
   };
+
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+
+  const handleScroll = (direction: "left" | "right") => {
+    if (!scrollContainerRef.current) return;
+    const scrollAmount = 160; // Scrolls roughly 2 thumbnails at a time
+    scrollContainerRef.current.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
+      behavior: "smooth",
+    });
+  };
+
+  if (galleryImages.length <= 1) return null;
+
+   const [isZoomed, setIsZoomed] = useState(false);
+  const [origin, setOrigin] = useState("50% 50%");
+  const handleMouseMove = (e: any) => {
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+    // Calculate cursor position as a percentage (0% to 100%) inside the container
+    const x = ((e.clientX - left) / width) * 100;
+    const y = ((e.clientY - top) / height) * 100;
+    setOrigin(`${x}% ${y}%`);
+  };
    
 
   return (
@@ -103,46 +127,102 @@ export default function ProductDetailClient({
       {/* Kolom Kiri: Galeri Gambar */}
       <div className="space-y-4">
         <div
+         onMouseEnter={() => setIsZoomed(true)}
+      onMouseLeave={() => {
+        setIsZoomed(false);
+        setOrigin("50% 50%");
+      }}
+      onMouseMove={handleMouseMove}
+
           className={`relative aspect-square w-full overflow-hidden rounded-xl border transition-colors ${
             isDarkMode
               ? "bg-gray-800/60 border-gray-800"
               : "bg-gray-50 border-gray-100"
           }`}
         >
-          <img
-            src={`/assets/all/${activeImage}`}
-            alt={product.productName}
-            className="h-full w-full object-contain"
-          />
+          {activeImage && (
+            <Image
+              src={activeImage}
+              alt={product.productName || "Product image"}
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+              style={{
+              transformOrigin: origin,
+              transform: isZoomed ? "scale(2)" : "scale(1)",
+            }}
+        className="object-contain p-2 scale-105 transition-transform duration-500 ease-out group-hover:scale-100"
+            />
+          )}
         </div>
 
         {/* Thumbnail */}
-        {galleryImages.length > 1 && (
-          <div className="flex gap-2 overflow-x-auto pb-1">
-            {galleryImages.map((img, idx) => (
-              <button
-                key={idx}
-                type="button"
-                onClick={() => setActiveImage(img)}
-                className={`h-16 w-16 rounded-md overflow-hidden border transition-colors cursor-pointer ${
-                  activeImage === img
-                    ? isDarkMode
-                      ? "border-cyan-400 bg-gray-800"
-                      : "border-blue-600 bg-gray-50"
-                    : isDarkMode
-                    ? "border-gray-700 bg-gray-800/40 hover:border-gray-600"
-                    : "border-gray-200 bg-white hover:border-gray-300"
-                }`}
-              >
-                <img
-                  src={`/assets/all/${img}`}
-                  alt={`${product.productName} ${idx + 1}`}
-                  className="h-full w-full object-contain"
-                />
-              </button>
-            ))}
+        <div className="relative flex items-center gap-1.5">
+            {/* Previous Button */}
+            <button
+              type="button"
+              onClick={() => handleScroll("left")}
+              aria-label="Previous thumbnails"
+              className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition-colors cursor-pointer ${
+                isDarkMode
+                  ? "border-gray-700 bg-gray-800 text-gray-200 hover:bg-gray-700"
+                  : "border-gray-200 bg-white text-gray-700 hover:bg-gray-100"
+              }`}
+            >
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+
+            {/* Scrollable Thumbnail Strip */}
+            <div
+              ref={scrollContainerRef}
+              className="flex gap-2 overflow-x-auto scroll-smooth py-1 no-scrollbar"
+            >
+              {galleryImages.map((img, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => setActiveImage(img)}
+                  className={`relative h-16 w-16 shrink-0 rounded-md overflow-hidden border transition-colors cursor-pointer ${
+                    activeImage === img
+                      ? isDarkMode
+                        ? "border-cyan-400 bg-gray-800"
+                        : "border-blue-600 bg-gray-50"
+                      : isDarkMode
+                      ? "border-gray-700 bg-gray-800/40 hover:border-gray-600"
+                      : "border-gray-200 bg-white hover:border-gray-300"
+                  }`}
+                >
+                  <Image
+                    src={img}
+                    alt={`${product.productName} ${idx + 1}`}
+                    fill
+                    sizes="64px"
+                    className="object-contain p-1"
+                  />
+                </button>
+              ))}
+            </div>
+
+            {/* Next Button */}
+            <button
+              type="button"
+              onClick={() => handleScroll("right")}
+              aria-label="Next thumbnails"
+              className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition-colors cursor-pointer ${
+                isDarkMode
+                  ? "border-gray-700 bg-gray-800 text-gray-200 hover:bg-gray-700"
+                  : "border-gray-200 bg-white text-gray-700 hover:bg-gray-100"
+              }`}
+            >
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
           </div>
-        )}
+              
+      
       </div>
 
       {/* Kolom Kanan: Info & Varian Produk */}
@@ -333,3 +413,4 @@ export default function ProductDetailClient({
 
   );
 }
+
