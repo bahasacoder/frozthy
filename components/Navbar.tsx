@@ -19,7 +19,7 @@ export default function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
 const navItems = [
   { label: "Beranda", href: "/" },
   { label: "About", href: "/about" },
-  { label: "Koleksi", href: "/koleksi" },
+  { label: "Shop", href: "/shop" },
   { label: "Contact Us", href: "/contact" },
   { label: "Recipes", href: "/recipes" },
   { label: "Today's", href: "/todays" },

@@ -54,7 +54,7 @@ const resolveProductImage = (product: ProductData): string => {
   return `/images/${mainImg}`;
 };
 
-export default function ProductGridProd({
+export default function ProductGridShop({
   products = (databaseData as { products: ProductData[] }).products,
   onSelectProduct,
 }: ProductGridProps) {

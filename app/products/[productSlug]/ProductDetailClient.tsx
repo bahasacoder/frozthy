@@ -2,6 +2,7 @@
 
 import React, { useRef, useState } from "react";
 import Image from "next/image";
+import { ShoppingBag, Check } from "lucide-react"
 import { Product, ProductItem } from "@/types/product";
 // import type { Product, ProductItem } from "./page";
 import { useAppDispatch } from "@/lib/hooks";
@@ -26,8 +27,10 @@ export default function ProductDetailClient({
   const [isDarkMode, setIsDarkMode] = useState(true);
   // Ambil varian pertama dengan indeks [0]
   const firstItem = product.productItems[0];
-
+  
+  const [isAdded, setIsAdded] = useState(false);
   const [selectedItem, setSelectedItem] = useState<ProductItem>(firstItem);
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const [quantity, setQuantity] = useState<number>(
     firstItem?.stokItem > 0 ? 1 : 0
   );
@@ -58,7 +61,6 @@ export default function ProductDetailClient({
       setActiveImage(item.imagesItem[0]);
     }
   };
-
   const handleAddToCart = () => {
     if (quantity <= 0 || selectedItem.stokItem <= 0) return;
 
@@ -79,7 +81,18 @@ export default function ProductDetailClient({
     );
   };
 
-  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+  const onButtonClick = () => {
+    if (selectedItem.stokItem <= 0 || isAdded) return;
+
+    // Jalankan fungsi add to cart Anda yang sudah ada
+    handleAddToCart();
+
+    // Aktifkan efek sukses sementara
+    setIsAdded(true);
+    setTimeout(() => {
+      setIsAdded(false);
+    }, 1500);
+  };
 
   const handleScroll = (direction: "left" | "right") => {
     if (!scrollContainerRef.current) return;
@@ -91,8 +104,7 @@ export default function ProductDetailClient({
   };
 
   if (galleryImages.length <= 1) return null;
-
-   const [isZoomed, setIsZoomed] = useState(false);
+  const [isZoomed, setIsZoomed] = useState(false);
   const [origin, setOrigin] = useState("50% 50%");
   const handleMouseMove = (e: any) => {
     const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
@@ -394,16 +406,35 @@ export default function ProductDetailClient({
 
           <button
             type="button"
-            onClick={handleAddToCart}
+            onClick={onButtonClick}
             disabled={selectedItem.stokItem <= 0}
-            className={`flex-1 rounded-lg px-6 py-3 text-sm font-semibold transition-all cursor-pointer ${
-              isDarkMode
-                ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold hover:opacity-90 disabled:bg-gray-800 disabled:from-gray-800 disabled:to-gray-800 disabled:text-gray-500"
-                : "bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-300"
+            className={`flex-1 inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold transition-all duration-300 cursor-pointer active:scale-[0.96] disabled:cursor-not-allowed ${
+              isAdded
+                ? isDarkMode
+                  ? "bg-gradient-to-r from-emerald-400 to-teal-500 text-black font-bold scale-[1.01] shadow-lg shadow-emerald-500/25"
+                  : "bg-emerald-600 text-white scale-[1.01] shadow-lg shadow-emerald-600/25"
+                : isDarkMode
+                ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold hover:opacity-90 hover:shadow-md hover:shadow-cyan-500/20 disabled:bg-gray-800 disabled:from-gray-800 disabled:to-gray-800 disabled:text-gray-500"
+                : "bg-blue-600 text-white hover:bg-blue-700 hover:shadow-md hover:shadow-blue-600/20 disabled:bg-gray-300"
             }`}
           >
-            Tambah ke Keranjang ({formatRibuan(subtotal)})
+            {isAdded ? (
+              <>
+                <Check className="w-4 h-4 stroke-[2.5] animate-bounce" />
+                <span>Berhasil Ditambahkan!</span>
+              </>
+            ) : (
+              <>
+                <ShoppingBag className="w-4 h-4" />
+                <span>
+                  {selectedItem.stokItem <= 0
+                    ? "Stok Habis"
+                    : `Tambah ke Keranjang (${formatRibuan(subtotal)})`}
+                </span>
+              </>
+            )}
           </button>
+
         </div>
       </div>
     </div>
