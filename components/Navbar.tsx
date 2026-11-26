@@ -1,17 +1,14 @@
 "use client";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useTheme } from "@/context/ThemeContext"
 import { Moon, Search, ShoppingBag, Sun } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import PbcLogo from "@/public/assets/pbc-logo.svg";
 
-interface NavbarProps {
-  isDarkMode: boolean;
-  setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-export default function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
+export default function Navbar() {
+  const { isDarkMode, setIsDarkMode } = useTheme();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const cartCount = 0;
 

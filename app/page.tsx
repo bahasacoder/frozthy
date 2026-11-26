@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, Heart, Search, Star, ArrowRight, X, Sun, Moon } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import ProductGridProd from '@/components/blocks/ProductGridProd';
+import { useTheme } from "@/context/ThemeContext"
 
 // Mock Data untuk Produk dengan visual riil
 const PRODUCTS = [
@@ -21,7 +22,8 @@ export default function ModernEcommerceHome() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   
   // Fitur Baru: State untuk Mode Gelap / Terang
-  const [isDarkMode, setIsDarkMode] = useState(true);
+    const { isDarkMode } = useTheme();
+// const [isDarkMode, setIsDarkMode] = useState(true);
 
   // Efek Parallax Scroll Tracker
   useEffect(() => {
@@ -63,11 +65,9 @@ export default function ModernEcommerceHome() {
         isDarkMode ? "bg-[#0b0c10] text-gray-100" : "bg-gray-50 text-gray-900"
       }`}
     >
-      
-      {/* 1. NAVIGATION BAR */} 
-      <Navbar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
+      {/* <Navbar /> sudah dipindah ke layout.tsx */}
       {/* 2. CINEMATIC HERO SECTION */}
-      <header className="relative h-screen flex items-center justify-center overflow-visible mt-10">
+      <header className="relative h-screen flex items-center justify-center overflow-visible md:mt-10">
         <motion.div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-fixed transform scale-105"
           style={{ 
