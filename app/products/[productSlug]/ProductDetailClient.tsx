@@ -121,7 +121,7 @@ export default function ProductDetailClient({
         isDarkMode ? "bg-[#0b0c10] text-gray-100" : "bg-gray-50 text-gray-900"
       }`}
     >
-      <Navbar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
+      <Navbar />
 
       <div
         className={`max-w-6xl mx-auto rounded-2xl shadow-sm overflow-hidden border transition-colors ${
