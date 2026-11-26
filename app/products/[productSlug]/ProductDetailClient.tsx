@@ -3,11 +3,7 @@
 import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
-import {
-  ProductItem,
-  ProductVariantItem,
-  ProductData,
-} from "@/types/product";
+import { Product, ProductItem } from "@/types/product";
 import { addItemToCart } from "@/lib/features/cart/cartSlice"; // Sesuaikan path cartSlice Anda
 import { Str_Random, formatRibuan } from "@/actions/generalFunctions";
 import { ShoppingBag, Check } from "lucide-react";
@@ -15,7 +11,7 @@ import Navbar from "@/components/Navbar";
 import { useTheme } from "@/context/ThemeContext";
 
 interface ProductDetailClientProps {
-  product: ProductData;
+  product: Product;
 }
 
 export default function ProductDetailClient({
@@ -25,8 +21,8 @@ export default function ProductDetailClient({
   const { isDarkMode } = useTheme();
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
-  // 1. Semua Hooks wajib berada di paling atas komponen
-  const firstItem = product.productItems[0];
+  // 1. State utama (semua hooks di atas)
+  const firstItem: ProductItem = product.productItems[0];
   const [selectedItem, setSelectedItem] = useState<ProductItem>(firstItem);
   const [quantity, setQuantity] = useState<number>(
     firstItem?.stokItem > 0 ? 1 : 0
@@ -39,7 +35,9 @@ export default function ProductDetailClient({
   const galleryImages = Array.from(
     new Set([
       ...(product.productImages || []),
-      ...product.productItems.flatMap((item) => item.imagesItem || []),
+      ...product.productItems.flatMap(
+        (item: ProductItem) => item.imagesItem || []
+      ),
     ])
   ).filter(Boolean);
 
@@ -56,9 +54,9 @@ export default function ProductDetailClient({
 
   const subtotal = hargaAkhir * quantity;
 
-  const resolveProductImage = (prod: ProductData): string => {
+  const resolveProductImage = (prod: Product): string => {
     const variantRemoteImg = prod.productItems
-      .flatMap((item: ProductVariantItem) => item.imagesItem || [])
+      .flatMap((item: ProductItem) => item.imagesItem || [])
       .find(
         (img: string) =>
           img.startsWith("http://") || img.startsWith("https://")
@@ -136,7 +134,6 @@ export default function ProductDetailClient({
     const y = ((e.clientY - top) / height) * 100;
     setOrigin(`${x}% ${y}%`);
   };
-
   
   return (
     <div
