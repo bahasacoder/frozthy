@@ -71,11 +71,11 @@ export default function ProductDetailClient({
   const subtotal = hargaAkhir * quantity;
 
   // 4. Event Handlers
-  const handleSelectVariant = (item: ProductItem) => {
+   const handleSelectVariant = (item: ProductItem) => {
     setSelectedItem(item);
     setQuantity(item.stokItem > 0 ? 1 : 0);
-    if (item.imagesItem?.) {
-      setActiveImage(item.imagesItem);
+    if (item.imagesItem?.[0]) {
+      setActiveImage(item.imagesItem[0]);
     }
   };
 
