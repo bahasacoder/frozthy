@@ -43,30 +43,3 @@ export const formatIDR = (amount: number) =>
     }).format(amount)
 
   
-export interface ProductVariantItem {
-  idItem: string;
-  namaItem: string;
-  imagesItem: string[];
-  size: string;
-  unit: string;
-  netto: string;
-  dimensi: string;
-  hargaItem: number;
-  hargaDiskon: number;
-  nilaiDiskon: number;
-  stokItem: number;
-  fitur: string[];
-}
-
-export interface ProductData {
-  idProduct: string;
-  productName: string;
-  productSlug: string;
-  productImages: string[];
-  categories: string[];
-  teaser: string;
-  descriptions: string;
-  specification: string;
-  satuan?: string;
-  productItems: ProductVariantItem[];
-}

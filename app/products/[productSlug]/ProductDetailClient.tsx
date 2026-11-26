@@ -1,10 +1,10 @@
 "use client";
 import React, { useRef, useState } from "react";
 import Image from "next/image";
-import { Product, ProductItem } from "@/types/product";
+import { Product, ProductItem, ProductVariantItem, ProductData  } from "@/types/product";
 // import type { Product, ProductItem } from "./page";import { useDispatch } from "react-redux";
 import { addItemToCart } from "@/lib/features/cart/cartSlice"; // Sesuaikan path cartSlice Anda
-import { Str_Random, formatRibuan, ProductVariantItem, ProductData } from "@/actions/generalFunctions";
+import { Str_Random, formatRibuan} from "@/actions/generalFunctions";
 import { ShoppingBag, Check } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import { useTheme } from "@/context/ThemeContext"
@@ -14,6 +14,12 @@ import { useDispatch } from "react-redux";
 interface ProductDetailClientProps {
   product: ProductData;
 }
+
+// function formatRibuan(amount: number): string {
+//   return Math.round(amount || 0)
+//     .toString()
+//     .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+// }
 
 export default function ProductDetailClient({
   product,
