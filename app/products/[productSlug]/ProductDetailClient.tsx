@@ -12,7 +12,7 @@ import { useDispatch } from "react-redux";
 
 
 interface ProductDetailClientProps {
-  product: ProductData;
+  product: Product;
 }
 
 // function formatRibuan(amount: number): string {
