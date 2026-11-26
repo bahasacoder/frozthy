@@ -94,7 +94,7 @@ export default function ProductDetailClient({
       idItem: selectedItem.idItem,
       productName: `${product.productName} (${selectedItem.namaItem})`,
       productImage:
-        selectedItem.imagesItem?. ??
+        selectedItem.imagesItem?.[0] ??
         activeImage ??
         resolveProductImage(product),
       hargaItem: hargaItemNum,
