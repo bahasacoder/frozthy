@@ -1,36 +1,32 @@
 "use client";
-
 import React, { useRef, useState } from "react";
 import Image from "next/image";
-import { ShoppingBag, Check } from "lucide-react"
 import { Product, ProductItem } from "@/types/product";
-// import type { Product, ProductItem } from "./page";
-import { useAppDispatch } from "@/lib/hooks";
-import { addItemToCart } from "@/lib/features/cart/cartSlice";
+// import type { Product, ProductItem } from "./page";import { useDispatch } from "react-redux";
+import { addItemToCart } from "@/lib/features/cart/cartSlice"; // Sesuaikan path cartSlice Anda
+import { Str_Random, formatRibuan, ProductVariantItem, ProductData } from "@/actions/generalFunctions";
+import { ShoppingBag, Check } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import { useTheme } from "@/context/ThemeContext"
+import { useDispatch } from "react-redux";
 
 
 interface ProductDetailClientProps {
-  product: Product;
-}
-
-function formatRibuan(amount: number): string {
-  return Math.round(amount || 0)
-    .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  product: ProductData;
 }
 
 export default function ProductDetailClient({
   product,
 }: ProductDetailClientProps) {
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
 
+  const [qty, setQty] = useState<number>(1);
+  const [isAdded, setIsAdded] = useState<boolean>(false);
+  const [addedIdItem, setAddedIdItem] = useState<string | null>(null);
   const { isDarkMode } = useTheme();
   // Ambil varian pertama dengan indeks [0]
   const firstItem = product.productItems[0];
   
-  const [isAdded, setIsAdded] = useState(false);
   const [selectedItem, setSelectedItem] = useState<ProductItem>(firstItem);
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const [quantity, setQuantity] = useState<number>(
@@ -48,13 +44,26 @@ export default function ProductDetailClient({
   const [activeImage, setActiveImage] = useState<string>(
     galleryImages[0] ?? ""
   );
+// Kalkulasi harga akhir & subtotal berdasarkan varian terpilih (selectedItem)
+const hargaAkhir =
+  selectedItem.hargaDiskon > 0 && selectedItem.hargaDiskon < selectedItem.hargaItem
+    ? selectedItem.hargaItem - selectedItem.hargaDiskon
+    : selectedItem.hargaItem;
 
-  // Hitung harga akhir setelah diskon
-  const hargaAkhir = Math.max(
-    0,
-    selectedItem.hargaItem - selectedItem.hargaDiskon
-  );
   const subtotal = hargaAkhir * quantity;
+  const resolveProductImage = (product: ProductData): string => {
+    const variantRemoteImg = product.productItems
+      .flatMap((item) => item.imagesItem)
+      .find((img) => img.startsWith("http://") || img.startsWith("https://"));
+  
+    if (variantRemoteImg) return variantRemoteImg;
+  
+    const mainImg = product.productImages.find((img) => Boolean(img));
+    if (!mainImg) return "/images/placeholder.jpg";
+    if (mainImg.startsWith("http") || mainImg.startsWith("/")) return mainImg;
+    return `/images/${mainImg}`;
+  };
+  
 
   const handleSelectVariant = (item: ProductItem) => {
     setSelectedItem(item);
@@ -63,31 +72,49 @@ export default function ProductDetailClient({
       setActiveImage(item.imagesItem[0]);
     }
   };
-  const handleAddToCart = () => {
-    if (quantity <= 0 || selectedItem.stokItem <= 0) return;
-
-    dispatch(
-      addItemToCart({
-        id: Date.now(),
-        idList: `${product.idProduct}-${selectedItem.idItem}-${Date.now()}`,
-        idItem: selectedItem.idItem,
-        productName: `${product.productName} - ${selectedItem.namaItem}`,
-        productImages:
-          selectedItem.imagesItem?.[0] ?? product.productImages?.[0] ?? "",
-        hargaItem: selectedItem.hargaItem,
-        hargaDiskon: selectedItem.hargaDiskon,
-        nilaiDiskon: selectedItem.nilaiDiskon,
-        quantity,
-        totalHargaItem: subtotal,
-      } as Parameters<typeof addItemToCart>[0])
-    );
-  };
-
+  
+    const handleAddToCart = (product: any, activeItem: any) => {
+      if (!activeItem || activeItem.stokItem <= 0) return;
+  
+      const newIdList = Str_Random(4);
+      const qty = 1;
+      const hargaItemNum = Number(activeItem.hargaItem) || 0;
+      const discountAmount = Number(activeItem.hargaDiskon) || 0;
+      const finalPrice =
+        discountAmount > 0 && discountAmount < hargaItemNum
+          ? hargaItemNum - discountAmount
+          : hargaItemNum;
+  
+      const cartPayload = {
+        id: newIdList,
+        idList: newIdList,
+        idProduct: product.idProduct,
+        idItem: activeItem.idItem,
+        productName: `${product.productName} (${activeItem.namaItem})`,
+        productImage: activeItem.imagesItem?.[0] ?? resolveProductImage(product),
+        hargaItem: hargaItemNum,
+        hargaDiskon: discountAmount,
+        nilaiDiskon: activeItem.nilaiDiskon ?? 0,
+        quantity: qty,
+        totalHargaItem: hargaItemNum * qty,
+        hargaList: finalPrice * qty,
+      } as unknown as Parameters<typeof addItemToCart>[0];
+  
+      // Dispatch ke Redux Toolkit store
+      dispatch(addItemToCart(cartPayload));
+  
+      // Picu efek visual pada tombol kartu yang diklik
+      setAddedIdItem(activeItem.idItem);
+      setTimeout(() => {
+        setAddedIdItem((prev) => (prev === activeItem.idItem ? null : prev));
+      }, 1500);
+    };
+  
   const onButtonClick = () => {
     if (selectedItem.stokItem <= 0 || isAdded) return;
 
     // Jalankan fungsi add to cart Anda yang sudah ada
-    handleAddToCart();
+    handleAddToCart(product, selectedItem);
 
     // Aktifkan efek sukses sementara
     setIsAdded(true);
