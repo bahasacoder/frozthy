@@ -119,7 +119,7 @@ export default function ProductDetailClient({
 
   return (
     <div
-      className={`min-h-screen pt-28 pb-12 px-4 sm:px-6 lg:px-8 transition-colors duration-700 ${
+      className={`min-h-screen overflow-x-hidden font-sans transition-colors duration-500 ${
         isDarkMode ? "bg-[#0b0c10] text-gray-100" : "bg-gray-50 text-gray-900"
       }`}
     >

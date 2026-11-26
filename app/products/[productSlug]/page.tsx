@@ -4,11 +4,10 @@ import { notFound } from "next/navigation";
 import database from "@/data/database.json"; // Sesuaikan path database.json Anda
 import { Product } from "@/types/product";
 import ProductDetailClient from "./ProductDetailClient";
-import { useTheme } from "@/context/ThemeContext"
 
 const allProducts: Product[] = database.products;
 
-// WAJIB ada saat memakai output: "export" dan key harus sama dengan nama folder [productSlug]
+// WAJIB di Server Component saat memakai output: "export"
 export async function generateStaticParams() {
   return allProducts.map((product) => ({
     productSlug: product.productSlug,
@@ -19,8 +18,8 @@ interface PageProps {
   params: Promise<{ productSlug: string }>;
 }
 
-// 1. Komponen terpisah untuk menangani await params dan pencarian produk
-async function ProductLoader({ params }: { params: Promise<{ productSlug: string }> }) {
+// Komponen server untuk menangani await params dan pencarian produk
+async function ProductLoader({ params }: PageProps) {
   const { productSlug } = await params;
 
   const product = allProducts.find(
@@ -34,20 +33,17 @@ async function ProductLoader({ params }: { params: Promise<{ productSlug: string
   return <ProductDetailClient product={product} />;
 }
 
-// 2. Halaman utama dibuat sinkron dan membungkus ProductLoader dengan Suspense
+// Halaman utama (Server Component)
 export default function ProductDetailPage({ params }: PageProps) {
-  const { isDarkMode } = useTheme();
   return (
-    <div
-      className={`min-h-screen overflow-x-hidden font-sans transition-colors duration-500 ${
-        isDarkMode ? "bg-[#0b0c10] text-gray-100" : "bg-gray-50 text-gray-900"
-      }`}
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center p-8 text-center text-gray-500">
+          Memuat detail produk...
+        </div>
+      }
     >
-      <div className="w-full mx-auto rounded-2xl shadow-sm overflow-hidden">
-        <Suspense fallback={<div className="p-8 text-center text-gray-500">Memuat detail produk...</div>}>
-          <ProductLoader params={params} />
-        </Suspense>
-      </div>
-    </div>
+      <ProductLoader params={params} />
+    </Suspense>
   );
 }
