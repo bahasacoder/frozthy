@@ -39,7 +39,7 @@ export default function ProductDetailClient({
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
   // 2. State Utama
-  const firstItem: ProductItem = product.productItems;
+  const firstItem: ProductItem = product.productItems[0];
   const [selectedItem, setSelectedItem] = useState<ProductItem>(firstItem);
   const [quantity, setQuantity] = useState<number>(
     firstItem?.stokItem > 0 ? 1 : 0
@@ -58,7 +58,7 @@ export default function ProductDetailClient({
   ).filter(Boolean);
 
   const [activeImage, setActiveImage] = useState<string>(
-    galleryImages ?? "/images/placeholder.jpg"
+     galleryImages[0] ?? "/images/placeholder.jpg"
   );
 
   // 3. Nilai Turunan (Derived Values)
@@ -103,7 +103,7 @@ export default function ProductDetailClient({
       quantity: safeQty,
       totalHargaItem: hargaItemNum * safeQty,
       hargaList: hargaAkhir * safeQty,
-    } as unknown as Parameters<typeof addItemToCart>;
+    } as unknown as Parameters<typeof addItemToCart>[0];
 
     dispatch(addItemToCart(cartPayload));
   };
