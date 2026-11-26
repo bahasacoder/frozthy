@@ -12,7 +12,7 @@ import { useDispatch } from "react-redux";
 
 
 interface ProductDetailClientProps {
-  product: Product;
+  product: ProductData;
 }
 
 // function formatRibuan(amount: number): string {
@@ -59,12 +59,12 @@ const hargaAkhir =
   const subtotal = hargaAkhir * quantity;
   const resolveProductImage = (product: ProductData): string => {
     const variantRemoteImg = product.productItems
-      .flatMap((item) => item.imagesItem)
-      .find((img) => img.startsWith("http://") || img.startsWith("https://"));
+      .flatMap((item: ProductVariantItem) => item.imagesItem)
+      .find((img: string) => img.startsWith("http://") || img.startsWith("https://"));
   
     if (variantRemoteImg) return variantRemoteImg;
   
-    const mainImg = product.productImages.find((img) => Boolean(img));
+    const mainImg = product.productImages.find((img: string) => Boolean(img));
     if (!mainImg) return "/images/placeholder.jpg";
     if (mainImg.startsWith("http") || mainImg.startsWith("/")) return mainImg;
     return `/images/${mainImg}`;
