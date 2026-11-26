@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useTheme } from "@/context/ThemeContext"
 import Navbar from "@/components/Navbar";
 
 interface ContactPageProps {
@@ -34,12 +35,10 @@ const visiMisiList = [
 ];
 
 export default function AboutPage({ initialDarkMode = false }: ContactPageProps) {
-      const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
-
-
+const { isDarkMode } = useTheme();
 
   return (
-     <div
+    <div
       className={`min-h-screen overflow-x-hidden font-sans transition-colors duration-500 ${
         isDarkMode ? "bg-[#0b0c10] text-gray-100" : "bg-gray-50 text-gray-900"
       }`}
@@ -303,3 +302,4 @@ export default function AboutPage({ initialDarkMode = false }: ContactPageProps)
     </div>
   );
 }
+

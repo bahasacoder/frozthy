@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
+import { useTheme } from "@/context/ThemeContext"
 
 interface ContactPageProps {
   // Opsional: bisa menerima status tema dari global state / Redux Anda
@@ -14,9 +15,7 @@ export default function ContactPage({ initialDarkMode = false }: ContactPageProp
   const WHATSAPP_NUMBER = "6281268052229";
 
   // State untuk mengatur mode Light / Night
-  // const [isDarkMode, setIsDarkMode] = useState<boolean>(initialDarkMode);
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
-  const toggleDarkMode = () => setIsDarkMode((prev) => !prev);
+  const { isDarkMode } = useTheme();
 
   const [formData, setFormData] = useState({
     name: "",

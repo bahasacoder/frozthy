@@ -8,6 +8,8 @@ import { Product, ProductItem } from "@/types/product";
 import { useAppDispatch } from "@/lib/hooks";
 import { addItemToCart } from "@/lib/features/cart/cartSlice";
 import Navbar from "@/components/Navbar";
+import { useTheme } from "@/context/ThemeContext"
+
 
 interface ProductDetailClientProps {
   product: Product;
@@ -24,7 +26,7 @@ export default function ProductDetailClient({
 }: ProductDetailClientProps) {
   const dispatch = useAppDispatch();
 
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const { isDarkMode } = useTheme();
   // Ambil varian pertama dengan indeks [0]
   const firstItem = product.productItems[0];
   

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import database from "@/data/database.json"; // Sesuaikan path database.json Anda
 import { Product } from "@/types/product";
 import ProductDetailClient from "./ProductDetailClient";
+import { useTheme } from "@/context/ThemeContext"
 
 const allProducts: Product[] = database.products;
 
@@ -34,8 +35,13 @@ async function ProductLoader({ params }: { params: Promise<{ productSlug: string
 
 // 2. Halaman utama dibuat sinkron dan membungkus ProductLoader dengan Suspense
 export default function ProductDetailPage({ params }: PageProps) {
+  const { isDarkMode } = useTheme();
   return (
-    <div className="min-h-screen">
+    <div
+      className={`min-h-screen overflow-x-hidden font-sans transition-colors duration-500 ${
+        isDarkMode ? "bg-[#0b0c10] text-gray-100" : "bg-gray-50 text-gray-900"
+      }`}
+    >
       <div className="w-full mx-auto rounded-2xl shadow-sm overflow-hidden">
         <Suspense fallback={<div className="p-8 text-center text-gray-500">Memuat detail produk...</div>}>
           <ProductLoader params={params} />
