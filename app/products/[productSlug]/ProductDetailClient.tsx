@@ -1,9 +1,8 @@
 "use client";
-
 import React, { useRef, useState } from "react";
 import Image from "next/image";
-import { useDispatch } from "react-redux";
 import { Product, ProductItem } from "@/types/product";
+import { useDispatch } from "react-redux";
 import { addItemToCart } from "@/lib/features/cart/cartSlice"; // Sesuaikan path cartSlice Anda
 import { Str_Random, formatRibuan } from "@/actions/generalFunctions";
 import { ShoppingBag, Check } from "lucide-react";
@@ -14,108 +13,129 @@ interface ProductDetailClientProps {
   product: Product;
 }
 
-// Helper murni diletakkan di luar komponen agar lebih bersih dan efisien
-const resolveProductImage = (prod: Product): string => {
-  const variantRemoteImg = prod.productItems
-    ?.flatMap((item: ProductItem) => item.imagesItem || [])
-    .find(
-      (img: string) => img.startsWith("http://") || img.startsWith("https://")
-    );
+interface CartItemPayload {
+  id: string;
+  idList: string;
+  idProduct: string;
+  idItem: string;
+  productName: string;
+  productImage: string;
+  hargaItem: number;
+  hargaDiskon: number;
+  nilaiDiskon: number;
+  quantity: number;
+  totalHargaItem: number;
+  hargaList: number;
+}
 
-  if (variantRemoteImg) return variantRemoteImg;
-
-  const mainImg = prod.productImages?.find((img: string) => Boolean(img));
-  if (!mainImg) return "/images/placeholder.jpg";
-  if (mainImg.startsWith("http") || mainImg.startsWith("/")) return mainImg;
-  return `/images/${mainImg}`;
-};
+// function formatRibuan(amount: number): string {
+//   return Math.round(amount || 0)
+//     .toString()
+//     .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+// }
 
 export default function ProductDetailClient({
   product,
 }: ProductDetailClientProps) {
-   // 1. Hooks & Context
   const dispatch = useDispatch();
-  const { isDarkMode } = useTheme();
-  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
-  // 2. State Utama
-  const firstItem: ProductItem = product.productItems[0];
+  const [qty, setQty] = useState<number>(1);
+  const [isAdded, setIsAdded] = useState<boolean>(false);
+  const [addedIdItem, setAddedIdItem] = useState<string | null>(null);
+  const { isDarkMode } = useTheme();
+  // Ambil varian pertama dengan indeks [0]
+  const firstItem = product.productItems[0];
+  
   const [selectedItem, setSelectedItem] = useState<ProductItem>(firstItem);
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const [quantity, setQuantity] = useState<number>(
     firstItem?.stokItem > 0 ? 1 : 0
   );
-  const [isAdded, setIsAdded] = useState<boolean>(false);
-  const [isZoomed, setIsZoomed] = useState<boolean>(false);
-  const [origin, setOrigin] = useState<string>("50% 50%");
 
+  // Kumpulkan semua gambar (gambar utama produk + gambar dari tiap varian)
   const galleryImages = Array.from(
     new Set([
       ...(product.productImages || []),
-      ...(product.productItems || []).flatMap(
-        (item: ProductItem) => item.imagesItem || []
-      ),
+      ...product.productItems.flatMap((item) => item.imagesItem || []),
     ])
-  ).filter(Boolean);
-
-  const [activeImage, setActiveImage] = useState<string>(
-     galleryImages[0] ?? "/images/placeholder.jpg"
   );
 
-  // 3. Nilai Turunan (Derived Values)
-  const hargaAkhir =
-    selectedItem?.hargaDiskon > 0 &&
-    selectedItem?.hargaDiskon < selectedItem?.hargaItem
-      ? selectedItem.hargaItem - selectedItem.hargaDiskon
-      : selectedItem?.hargaItem ?? 0;
+  const [activeImage, setActiveImage] = useState<string>(
+    galleryImages[0] ?? ""
+  );
+// Kalkulasi harga akhir & subtotal berdasarkan varian terpilih (selectedItem)
+const hargaAkhir =
+  selectedItem.hargaDiskon > 0 && selectedItem.hargaDiskon < selectedItem.hargaItem
+    ? selectedItem.hargaItem - selectedItem.hargaDiskon
+    : selectedItem.hargaItem;
 
   const subtotal = hargaAkhir * quantity;
+  const resolveProductImage = (product: Product): string => {
+    const variantRemoteImg = product.productItems
+      .flatMap((item) => item.imagesItem)
+      .find((img: string) => img.startsWith("http://") || img.startsWith("https://"));
+  
+    if (variantRemoteImg) return variantRemoteImg;
+  
+    const mainImg = product.productImages.find((img: string) => Boolean(img));
+    if (!mainImg) return "/images/placeholder.jpg";
+    if (mainImg.startsWith("http") || mainImg.startsWith("/")) return mainImg;
+    return `/images/${mainImg}`;
+  };
+  
 
-  // 4. Event Handlers
-   const handleSelectVariant = (item: ProductItem) => {
+  const handleSelectVariant = (item: ProductItem) => {
     setSelectedItem(item);
     setQuantity(item.stokItem > 0 ? 1 : 0);
     if (item.imagesItem?.[0]) {
       setActiveImage(item.imagesItem[0]);
     }
   };
-
-  const handleAddToCart = () => {
-    if (!selectedItem || selectedItem.stokItem <= 0 || quantity <= 0) return;
-
-    const newIdList = Str_Random(4);
-    const safeQty = Math.min(Math.max(1, quantity), selectedItem.stokItem);
-    const hargaItemNum = Number(selectedItem.hargaItem) || 0;
-    const discountAmount = Number(selectedItem.hargaDiskon) || 0;
-
-    const cartPayload = {
-      id: newIdList,
-      idList: newIdList,
-      idProduct: product.idProduct,
-      idItem: selectedItem.idItem,
-      productName: `${product.productName} (${selectedItem.namaItem})`,
-      productImage:
-        selectedItem.imagesItem?.[0] ??
-        activeImage ??
-        resolveProductImage(product),
-      hargaItem: hargaItemNum,
-      hargaDiskon: discountAmount,
-      nilaiDiskon: selectedItem.nilaiDiskon ?? 0,
-      quantity: safeQty,
-      totalHargaItem: hargaItemNum * safeQty,
-      hargaList: hargaAkhir * safeQty,
-    } as unknown as Parameters<typeof addItemToCart>[0];
-
-    dispatch(addItemToCart(cartPayload));
-  };
-
+  
+    const handleAddToCart = (product: any, activeItem: any) => {
+      if (!activeItem || activeItem.stokItem <= 0) return;
+  
+      const newIdList = Str_Random(4);
+      const qty = 1;
+      const hargaItemNum = Number(activeItem.hargaItem) || 0;
+      const discountAmount = Number(activeItem.hargaDiskon) || 0;
+      const finalPrice =
+        discountAmount > 0 && discountAmount < hargaItemNum
+          ? hargaItemNum - discountAmount
+          : hargaItemNum;
+  
+      const cartPayload = {
+        id: newIdList,
+        idList: newIdList,
+        idProduct: product.idProduct,
+        idItem: activeItem.idItem,
+        productName: `${product.productName} (${activeItem.namaItem})`,
+        productImage: activeItem.imagesItem?.[0] ?? resolveProductImage(product),
+        hargaItem: hargaItemNum,
+        hargaDiskon: discountAmount,
+        nilaiDiskon: activeItem.nilaiDiskon ?? 0,
+        quantity: qty,
+        totalHargaItem: hargaItemNum * qty,
+        hargaList: finalPrice * qty,
+      } as unknown as Parameters<typeof addItemToCart>[0];
+  
+      // Dispatch ke Redux Toolkit store
+      dispatch(addItemToCart(cartPayload));
+  
+      // Picu efek visual pada tombol kartu yang diklik
+      setAddedIdItem(activeItem.idItem);
+      setTimeout(() => {
+        setAddedIdItem((prev) => (prev === activeItem.idItem ? null : prev));
+      }, 1500);
+    };
+  
   const onButtonClick = () => {
-    if (!selectedItem || selectedItem.stokItem <= 0 || quantity <= 0 || isAdded)
-      return;
+    if (selectedItem.stokItem <= 0 || isAdded) return;
 
-    // Panggil tanpa argumen karena sudah selaras dengan definisi handleAddToCart
-    handleAddToCart();
+    // Jalankan fungsi add to cart Anda yang sudah ada
+    handleAddToCart(product, selectedItem);
 
-    // Aktifkan efek tombol sukses sementara
+    // Aktifkan efek sukses sementara
     setIsAdded(true);
     setTimeout(() => {
       setIsAdded(false);
@@ -124,21 +144,25 @@ export default function ProductDetailClient({
 
   const handleScroll = (direction: "left" | "right") => {
     if (!scrollContainerRef.current) return;
-    const scrollAmount = 160;
+    const scrollAmount = 160; // Scrolls roughly 2 thumbnails at a time
     scrollContainerRef.current.scrollBy({
       left: direction === "left" ? -scrollAmount : scrollAmount,
       behavior: "smooth",
     });
   };
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const { left, top, width, height } =
-      e.currentTarget.getBoundingClientRect();
+  if (galleryImages.length <= 1) return null;
+  const [isZoomed, setIsZoomed] = useState(false);
+  const [origin, setOrigin] = useState("50% 50%");
+  const handleMouseMove = (e: any) => {
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+    // Calculate cursor position as a percentage (0% to 100%) inside the container
     const x = ((e.clientX - left) / width) * 100;
     const y = ((e.clientY - top) / height) * 100;
     setOrigin(`${x}% ${y}%`);
   };
-  
+   
+
   return (
     <div
       className={`min-h-screen overflow-x-hidden font-sans transition-colors duration-500 ${
