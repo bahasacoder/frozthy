@@ -45,7 +45,7 @@ export default function AboutPage({ initialDarkMode = false }: ContactPageProps)
       }`}
     >
       {/* 1. NAVIGATION BAR */}
-      <Navbar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
+      <Navbar />
 
       <div className="w-full flex flex-col pt-20">
         {/* 2. BANNER HEADER */}

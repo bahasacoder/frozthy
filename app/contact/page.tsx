@@ -61,7 +61,7 @@ export default function ContactPage({ initialDarkMode = false }: ContactPageProp
       
       
       {/* 1. NAVIGATION BAR */}
-      <Navbar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
+      <Navbar />
       {/* 2. CINEMATIC HERO SECTION */}
       <header className="relative h-screen flex items-center justify-center overflow-hidden">
          {/* Header */}
