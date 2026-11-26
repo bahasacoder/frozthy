@@ -14,15 +14,32 @@ interface ProductDetailClientProps {
   product: Product;
 }
 
+// Helper murni diletakkan di luar komponen agar lebih bersih dan efisien
+const resolveProductImage = (prod: Product): string => {
+  const variantRemoteImg = prod.productItems
+    ?.flatMap((item: ProductItem) => item.imagesItem || [])
+    .find(
+      (img: string) => img.startsWith("http://") || img.startsWith("https://")
+    );
+
+  if (variantRemoteImg) return variantRemoteImg;
+
+  const mainImg = prod.productImages?.find((img: string) => Boolean(img));
+  if (!mainImg) return "/images/placeholder.jpg";
+  if (mainImg.startsWith("http") || mainImg.startsWith("/")) return mainImg;
+  return `/images/${mainImg}`;
+};
+
 export default function ProductDetailClient({
   product,
 }: ProductDetailClientProps) {
+   // 1. Hooks & Context
   const dispatch = useDispatch();
   const { isDarkMode } = useTheme();
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
-  // 1. State utama (semua hooks di atas)
-  const firstItem: ProductItem = product.productItems[0];
+  // 2. State Utama
+  const firstItem: ProductItem = product.productItems;
   const [selectedItem, setSelectedItem] = useState<ProductItem>(firstItem);
   const [quantity, setQuantity] = useState<number>(
     firstItem?.stokItem > 0 ? 1 : 0
@@ -31,58 +48,39 @@ export default function ProductDetailClient({
   const [isZoomed, setIsZoomed] = useState<boolean>(false);
   const [origin, setOrigin] = useState<string>("50% 50%");
 
-  // Kumpulkan semua gambar (gambar utama produk + gambar dari tiap varian)
   const galleryImages = Array.from(
     new Set([
       ...(product.productImages || []),
-      ...product.productItems.flatMap(
+      ...(product.productItems || []).flatMap(
         (item: ProductItem) => item.imagesItem || []
       ),
     ])
   ).filter(Boolean);
 
   const [activeImage, setActiveImage] = useState<string>(
-    galleryImages[0] ?? "/images/placeholder.jpg"
+    galleryImages ?? "/images/placeholder.jpg"
   );
 
-  // 2. Kalkulasi harga akhir & subtotal berdasarkan varian & quantity terpilih
+  // 3. Nilai Turunan (Derived Values)
   const hargaAkhir =
-    selectedItem.hargaDiskon > 0 &&
-    selectedItem.hargaDiskon < selectedItem.hargaItem
+    selectedItem?.hargaDiskon > 0 &&
+    selectedItem?.hargaDiskon < selectedItem?.hargaItem
       ? selectedItem.hargaItem - selectedItem.hargaDiskon
-      : selectedItem.hargaItem;
+      : selectedItem?.hargaItem ?? 0;
 
   const subtotal = hargaAkhir * quantity;
 
-  const resolveProductImage = (prod: Product): string => {
-    const variantRemoteImg = prod.productItems
-      .flatMap((item: ProductItem) => item.imagesItem || [])
-      .find(
-        (img: string) =>
-          img.startsWith("http://") || img.startsWith("https://")
-      );
-
-    if (variantRemoteImg) return variantRemoteImg;
-
-    const mainImg = prod.productImages?.find((img: string) => Boolean(img));
-    if (!mainImg) return "/images/placeholder.jpg";
-    if (mainImg.startsWith("http") || mainImg.startsWith("/")) return mainImg;
-    return `/images/${mainImg}`;
-  };
-
-  // 3. Handler pilih varian
+  // 4. Event Handlers
   const handleSelectVariant = (item: ProductItem) => {
     setSelectedItem(item);
     setQuantity(item.stokItem > 0 ? 1 : 0);
-    if (item.imagesItem?.[0]) {
-      setActiveImage(item.imagesItem[0]);
+    if (item.imagesItem?.) {
+      setActiveImage(item.imagesItem);
     }
   };
 
-  // 4. Handler Dispatch ke Redux Toolkit Cart Slice
   const handleAddToCart = () => {
-    if (!selectedItem || selectedItem.stokItem <= 0 || quantity <= 0 || isAdded)
-      return;
+    if (!selectedItem || selectedItem.stokItem <= 0 || quantity <= 0) return;
 
     const newIdList = Str_Random(4);
     const safeQty = Math.min(Math.max(1, quantity), selectedItem.stokItem);
@@ -96,7 +94,7 @@ export default function ProductDetailClient({
       idItem: selectedItem.idItem,
       productName: `${product.productName} (${selectedItem.namaItem})`,
       productImage:
-        selectedItem.imagesItem?.[0] ??
+        selectedItem.imagesItem?. ??
         activeImage ??
         resolveProductImage(product),
       hargaItem: hargaItemNum,
@@ -105,19 +103,25 @@ export default function ProductDetailClient({
       quantity: safeQty,
       totalHargaItem: hargaItemNum * safeQty,
       hargaList: hargaAkhir * safeQty,
-    } as unknown as Parameters<typeof addItemToCart>[0];
+    } as unknown as Parameters<typeof addItemToCart>;
 
-    // Kirim payload ke Redux store
     dispatch(addItemToCart(cartPayload));
-
-    // Aktifkan efek tombol sukses sementara
-    // setIsAdded(true);
-    // setTimeout(() => {
-    //   setIsAdded(false);
-    // }, 1500);
   };
 
-  // 5. Handler geser thumbnail & zoom gambar
+  const onButtonClick = () => {
+    if (!selectedItem || selectedItem.stokItem <= 0 || quantity <= 0 || isAdded)
+      return;
+
+    // Panggil tanpa argumen karena sudah selaras dengan definisi handleAddToCart
+    handleAddToCart();
+
+    // Aktifkan efek tombol sukses sementara
+    setIsAdded(true);
+    setTimeout(() => {
+      setIsAdded(false);
+    }, 1500);
+  };
+
   const handleScroll = (direction: "left" | "right") => {
     if (!scrollContainerRef.current) return;
     const scrollAmount = 160;
@@ -133,20 +137,6 @@ export default function ProductDetailClient({
     const x = ((e.clientX - left) / width) * 100;
     const y = ((e.clientY - top) / height) * 100;
     setOrigin(`${x}% ${y}%`);
-  };
-  // onButtonClick
-  
-  const onButtonClick = () => {
-    if (selectedItem.stokItem <= 0 || isAdded) return;
-
-    // Jalankan fungsi add to cart Anda yang sudah ada
-    handleAddToCart(product, selectedItem);
-
-    // Aktifkan efek sukses sementara
-    setIsAdded(true);
-    setTimeout(() => {
-      setIsAdded(false);
-    }, 1500);
   };
   
   return (
