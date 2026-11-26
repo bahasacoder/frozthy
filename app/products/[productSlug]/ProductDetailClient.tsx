@@ -1,43 +1,39 @@
 "use client";
+
 import React, { useRef, useState } from "react";
 import Image from "next/image";
-import { Product, ProductItem, ProductVariantItem, ProductData  } from "@/types/product";
-// import type { Product, ProductItem } from "./page";import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
+import {
+  ProductItem,
+  ProductVariantItem,
+  ProductData,
+} from "@/types/product";
 import { addItemToCart } from "@/lib/features/cart/cartSlice"; // Sesuaikan path cartSlice Anda
-import { Str_Random, formatRibuan} from "@/actions/generalFunctions";
+import { Str_Random, formatRibuan } from "@/actions/generalFunctions";
 import { ShoppingBag, Check } from "lucide-react";
 import Navbar from "@/components/Navbar";
-import { useTheme } from "@/context/ThemeContext"
-import { useDispatch } from "react-redux";
-
+import { useTheme } from "@/context/ThemeContext";
 
 interface ProductDetailClientProps {
   product: ProductData;
 }
 
-// function formatRibuan(amount: number): string {
-//   return Math.round(amount || 0)
-//     .toString()
-//     .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-// }
-
 export default function ProductDetailClient({
   product,
 }: ProductDetailClientProps) {
   const dispatch = useDispatch();
-
-  const [qty, setQty] = useState<number>(1);
-  const [isAdded, setIsAdded] = useState<boolean>(false);
-  const [addedIdItem, setAddedIdItem] = useState<string | null>(null);
   const { isDarkMode } = useTheme();
-  // Ambil varian pertama dengan indeks [0]
-  const firstItem = product.productItems[0];
-  
-  const [selectedItem, setSelectedItem] = useState<ProductItem>(firstItem);
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+
+  // 1. Semua Hooks wajib berada di paling atas komponen
+  const firstItem = product.productItems[0];
+  const [selectedItem, setSelectedItem] = useState<ProductItem>(firstItem);
   const [quantity, setQuantity] = useState<number>(
     firstItem?.stokItem > 0 ? 1 : 0
   );
+  const [isAdded, setIsAdded] = useState<boolean>(false);
+  const [isZoomed, setIsZoomed] = useState<boolean>(false);
+  const [origin, setOrigin] = useState<string>("50% 50%");
 
   // Kumpulkan semua gambar (gambar utama produk + gambar dari tiap varian)
   const galleryImages = Array.from(
@@ -45,32 +41,38 @@ export default function ProductDetailClient({
       ...(product.productImages || []),
       ...product.productItems.flatMap((item) => item.imagesItem || []),
     ])
-  );
+  ).filter(Boolean);
 
   const [activeImage, setActiveImage] = useState<string>(
-    galleryImages[0] ?? ""
+    galleryImages[0] ?? "/images/placeholder.jpg"
   );
-// Kalkulasi harga akhir & subtotal berdasarkan varian terpilih (selectedItem)
-const hargaAkhir =
-  selectedItem.hargaDiskon > 0 && selectedItem.hargaDiskon < selectedItem.hargaItem
-    ? selectedItem.hargaItem - selectedItem.hargaDiskon
-    : selectedItem.hargaItem;
+
+  // 2. Kalkulasi harga akhir & subtotal berdasarkan varian & quantity terpilih
+  const hargaAkhir =
+    selectedItem.hargaDiskon > 0 &&
+    selectedItem.hargaDiskon < selectedItem.hargaItem
+      ? selectedItem.hargaItem - selectedItem.hargaDiskon
+      : selectedItem.hargaItem;
 
   const subtotal = hargaAkhir * quantity;
-  const resolveProductImage = (product: ProductData): string => {
-    const variantRemoteImg = product.productItems
-      .flatMap((item: ProductVariantItem) => item.imagesItem)
-      .find((img: string) => img.startsWith("http://") || img.startsWith("https://"));
-  
+
+  const resolveProductImage = (prod: ProductData): string => {
+    const variantRemoteImg = prod.productItems
+      .flatMap((item: ProductVariantItem) => item.imagesItem || [])
+      .find(
+        (img: string) =>
+          img.startsWith("http://") || img.startsWith("https://")
+      );
+
     if (variantRemoteImg) return variantRemoteImg;
-  
-    const mainImg = product.productImages.find((img: string) => Boolean(img));
+
+    const mainImg = prod.productImages?.find((img: string) => Boolean(img));
     if (!mainImg) return "/images/placeholder.jpg";
     if (mainImg.startsWith("http") || mainImg.startsWith("/")) return mainImg;
     return `/images/${mainImg}`;
   };
-  
 
+  // 3. Handler pilih varian
   const handleSelectVariant = (item: ProductItem) => {
     setSelectedItem(item);
     setQuantity(item.stokItem > 0 ? 1 : 0);
@@ -78,78 +80,64 @@ const hargaAkhir =
       setActiveImage(item.imagesItem[0]);
     }
   };
-  
-    const handleAddToCart = (product: any, activeItem: any) => {
-      if (!activeItem || activeItem.stokItem <= 0) return;
-  
-      const newIdList = Str_Random(4);
-      const qty = 1;
-      const hargaItemNum = Number(activeItem.hargaItem) || 0;
-      const discountAmount = Number(activeItem.hargaDiskon) || 0;
-      const finalPrice =
-        discountAmount > 0 && discountAmount < hargaItemNum
-          ? hargaItemNum - discountAmount
-          : hargaItemNum;
-  
-      const cartPayload = {
-        id: newIdList,
-        idList: newIdList,
-        idProduct: product.idProduct,
-        idItem: activeItem.idItem,
-        productName: `${product.productName} (${activeItem.namaItem})`,
-        productImage: activeItem.imagesItem?.[0] ?? resolveProductImage(product),
-        hargaItem: hargaItemNum,
-        hargaDiskon: discountAmount,
-        nilaiDiskon: activeItem.nilaiDiskon ?? 0,
-        quantity: qty,
-        totalHargaItem: hargaItemNum * qty,
-        hargaList: finalPrice * qty,
-      } as unknown as Parameters<typeof addItemToCart>[0];
-  
-      // Dispatch ke Redux Toolkit store
-      dispatch(addItemToCart(cartPayload));
-  
-      // Picu efek visual pada tombol kartu yang diklik
-      setAddedIdItem(activeItem.idItem);
-      setTimeout(() => {
-        setAddedIdItem((prev) => (prev === activeItem.idItem ? null : prev));
-      }, 1500);
-    };
-  
-  const onButtonClick = () => {
-    if (selectedItem.stokItem <= 0 || isAdded) return;
 
-    // Jalankan fungsi add to cart Anda yang sudah ada
-    handleAddToCart(product, selectedItem);
+  // 4. Handler Dispatch ke Redux Toolkit Cart Slice
+  const handleAddToCart = () => {
+    if (!selectedItem || selectedItem.stokItem <= 0 || quantity <= 0 || isAdded)
+      return;
 
-    // Aktifkan efek sukses sementara
+    const newIdList = Str_Random(4);
+    const safeQty = Math.min(Math.max(1, quantity), selectedItem.stokItem);
+    const hargaItemNum = Number(selectedItem.hargaItem) || 0;
+    const discountAmount = Number(selectedItem.hargaDiskon) || 0;
+
+    const cartPayload = {
+      id: newIdList,
+      idList: newIdList,
+      idProduct: product.idProduct,
+      idItem: selectedItem.idItem,
+      productName: `${product.productName} (${selectedItem.namaItem})`,
+      productImage:
+        selectedItem.imagesItem?.[0] ??
+        activeImage ??
+        resolveProductImage(product),
+      hargaItem: hargaItemNum,
+      hargaDiskon: discountAmount,
+      nilaiDiskon: selectedItem.nilaiDiskon ?? 0,
+      quantity: safeQty,
+      totalHargaItem: hargaItemNum * safeQty,
+      hargaList: hargaAkhir * safeQty,
+    } as unknown as Parameters<typeof addItemToCart>[0];
+
+    // Kirim payload ke Redux store
+    dispatch(addItemToCart(cartPayload));
+
+    // Aktifkan efek tombol sukses sementara
     setIsAdded(true);
     setTimeout(() => {
       setIsAdded(false);
     }, 1500);
   };
 
+  // 5. Handler geser thumbnail & zoom gambar
   const handleScroll = (direction: "left" | "right") => {
     if (!scrollContainerRef.current) return;
-    const scrollAmount = 160; // Scrolls roughly 2 thumbnails at a time
+    const scrollAmount = 160;
     scrollContainerRef.current.scrollBy({
       left: direction === "left" ? -scrollAmount : scrollAmount,
       behavior: "smooth",
     });
   };
 
-  if (galleryImages.length <= 1) return null;
-  const [isZoomed, setIsZoomed] = useState(false);
-  const [origin, setOrigin] = useState("50% 50%");
-  const handleMouseMove = (e: any) => {
-    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
-    // Calculate cursor position as a percentage (0% to 100%) inside the container
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const { left, top, width, height } =
+      e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - left) / width) * 100;
     const y = ((e.clientY - top) / height) * 100;
     setOrigin(`${x}% ${y}%`);
   };
-   
 
+  
   return (
     <div
       className={`min-h-screen overflow-x-hidden font-sans transition-colors duration-500 ${
