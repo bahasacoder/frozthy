@@ -1,18 +1,31 @@
 "use client";
 import React, { useRef, useState } from "react";
 import Image from "next/image";
-import { Product, ProductItem, ProductVariantItem, ProductData  } from "@/types/product";
-// import type { Product, ProductItem } from "./page";import { useDispatch } from "react-redux";
+import { Product, ProductItem } from "@/types/product";
+import { useDispatch } from "react-redux";
 import { addItemToCart } from "@/lib/features/cart/cartSlice"; // Sesuaikan path cartSlice Anda
-import { Str_Random, formatRibuan} from "@/actions/generalFunctions";
+import { Str_Random, formatRibuan } from "@/actions/generalFunctions";
 import { ShoppingBag, Check } from "lucide-react";
 import Navbar from "@/components/Navbar";
-import { useTheme } from "@/context/ThemeContext"
-import { useDispatch } from "react-redux";
-
+import { useTheme } from "@/context/ThemeContext";
 
 interface ProductDetailClientProps {
-  product: ProductData;
+  product: Product;
+}
+
+interface CartItemPayload {
+  id: string;
+  idList: string;
+  idProduct: string;
+  idItem: string;
+  productName: string;
+  productImage: string;
+  hargaItem: number;
+  hargaDiskon: number;
+  nilaiDiskon: number;
+  quantity: number;
+  totalHargaItem: number;
+  hargaList: number;
 }
 
 // function formatRibuan(amount: number): string {
@@ -57,14 +70,14 @@ const hargaAkhir =
     : selectedItem.hargaItem;
 
   const subtotal = hargaAkhir * quantity;
-  const resolveProductImage = (product: ProductData): string => {
+  const resolveProductImage = (product: Product): string => {
     const variantRemoteImg = product.productItems
       .flatMap((item) => item.imagesItem)
-      .find((img) => img.startsWith("http://") || img.startsWith("https://"));
+      .find((img: string) => img.startsWith("http://") || img.startsWith("https://"));
   
     if (variantRemoteImg) return variantRemoteImg;
   
-    const mainImg = product.productImages.find((img) => Boolean(img));
+    const mainImg = product.productImages.find((img: string) => Boolean(img));
     if (!mainImg) return "/images/placeholder.jpg";
     if (mainImg.startsWith("http") || mainImg.startsWith("/")) return mainImg;
     return `/images/${mainImg}`;
