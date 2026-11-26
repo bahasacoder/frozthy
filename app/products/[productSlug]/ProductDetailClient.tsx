@@ -111,10 +111,10 @@ export default function ProductDetailClient({
     dispatch(addItemToCart(cartPayload));
 
     // Aktifkan efek tombol sukses sementara
-    setIsAdded(true);
-    setTimeout(() => {
-      setIsAdded(false);
-    }, 1500);
+    // setIsAdded(true);
+    // setTimeout(() => {
+    //   setIsAdded(false);
+    // }, 1500);
   };
 
   // 5. Handler geser thumbnail & zoom gambar
@@ -133,6 +133,20 @@ export default function ProductDetailClient({
     const x = ((e.clientX - left) / width) * 100;
     const y = ((e.clientY - top) / height) * 100;
     setOrigin(`${x}% ${y}%`);
+  };
+  // onButtonClick
+  
+  const onButtonClick = () => {
+    if (selectedItem.stokItem <= 0 || isAdded) return;
+
+    // Jalankan fungsi add to cart Anda yang sudah ada
+    handleAddToCart(product, selectedItem);
+
+    // Aktifkan efek sukses sementara
+    setIsAdded(true);
+    setTimeout(() => {
+      setIsAdded(false);
+    }, 1500);
   };
   
   return (
