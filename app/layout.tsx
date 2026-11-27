@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import StoreProvider from "./StoreProvider";
 import { ThemeProvider } from "@/context/ThemeContext";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/Navbar"; // Pastikan huruf besar/kecil sesuai nama file (Navbar.tsx atau navbar.tsx)
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -32,7 +32,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <StoreProvider>
-           <ThemeProvider>
+          <ThemeProvider>
             <Navbar />
             <div className="flex-1">{children}</div>
           </ThemeProvider>

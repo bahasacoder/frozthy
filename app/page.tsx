@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, Heart, Search, Star, ArrowRight, X, Sun, Moon } from 'lucide-react';
-import Navbar from '@/components/Navbar';
 import ProductGridProd from '@/components/blocks/ProductGridProd';
 import { useTheme } from "@/context/ThemeContext"
 

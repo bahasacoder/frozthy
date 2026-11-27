@@ -11,34 +11,27 @@ import Image from "next/image";
 import PbcLogo from "@/public/assets/pbc-logo.svg";
 
 export default function Navbar() {
-  const router = useRouter();
+   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [cartCount, setCartCount] = useState<number>(0);
-  
-  const { isDarkMode, setIsDarkMode } = useTheme();
   const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const { isDarkMode, setIsDarkMode } = useTheme();
 
   // Ambil data item keranjang dari Redux Store
   const cartItems = useSelector(
     (state: any) => state.cart?.items || state.cart?.cartItems || []
   );
+
   const totalCartQty = useMemo(
-  () =>
-    cartItems.reduce(
-      (sum: number, item: any) => sum + (Number(item.quantity) || 1),
-      0
-    ),
-  [cartItems]
-);
-  if(totalCartQty > 0) {
-     setCartCount(totalCartQty);
-  }
-  // const totalItemsCount = cartItems.reduce(
-  //   (total, item) => total + (Number(item.quantity) || 0),
-  //   0
-  // );
+    () =>
+      cartItems.reduce(
+        (sum: number, item: any) => sum + (Number(item.quantity) || 1),
+        0
+      ),
+    [cartItems]
+  );
 
   // State mounted untuk mencegah Hydration Mismatch
   const [mounted, setMounted] = useState(false);
@@ -47,14 +40,14 @@ export default function Navbar() {
   }, []);
 
   // Nilai aman yang dipakai saat render JSX
-  const clientDarkMode = mounted ? isDarkMode : false;
+  const clientDarkMode = mounted ? isDarkMode : true;
   const clientCartCount = mounted ? totalCartQty : 0;
 
   // Definisikan daftar menu beserta rute URL-nya
 const navItems = [
   { label: "Beranda", href: "/" },
   { label: "About", href: "/about" },
-  { label: "Shop", href: "/shop" },
+  { label: "Products", href: "/products" },
   { label: "Contact Us", href: "/contact" },
   { label: "Recipes", href: "/recipes" },
   { label: "Today's", href: "/todays" },
@@ -186,21 +179,21 @@ const navItems = [
           setIsCartOpen(true);
         }}
         className={`p-2 rounded-full relative transition-colors cursor-pointer ${
-          isDarkMode
+          clientDarkMode
             ? "text-gray-400 hover:text-white hover:bg-gray-900"
             : "text-gray-600 hover:text-black hover:bg-gray-200"
         }`}
       >
         <ShoppingBag className="w-5 h-5" />
         <AnimatePresence>
-          {cartCount > 0 && (
+          {clientCartCount > 0 && (
             <motion.span
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0 }}
               className="absolute -top-1 -right-1 bg-gradient-to-r from-cyan-400 to-fuchsia-500 text-black text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center"
             >
-              {cartCount}
+              {clientCartCount}
             </motion.span>
           )}
         </AnimatePresence>
