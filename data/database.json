@@ -117,5 +117,40 @@
         { "idItem": "ITEM-ccf6fb99", "namaItem": "1P+N 32A", "imagesItem": ["https://iili.io/nNdJLzP.jpg"], "size": "32A", "unit": "item", "netto": "32A", "dimensi": "10cm x 10cm x 10cm", "hargaItem": 170000, "hargaDiskon": 0, "nilaiDiskon": 0, "stokItem": 15, "fitur": ["premium"] }
       ]
     }
+  ],
+  "promos": [
+    {
+      "idPromo": "PROMO-001",
+      "code": "PASARBONE10",
+      "label": "Diskon 10% Produk Lokal Bone",
+      "type": "percent",
+      "value": 10,
+      "minPurchase": 50000,
+      "maxDiscount": 25000,
+      "isActive": true,
+      "expiredAt": "2026-12-31"
+    },
+    {
+      "idPromo": "PROMO-002",
+      "code": "HEMAT5RB",
+      "label": "Potongan Langsung Rp 5.000",
+      "type": "fixed",
+      "value": 5000,
+      "minPurchase": 30000,
+      "maxDiscount": 5000,
+      "isActive": true,
+      "expiredAt": "2026-12-31"
+    },
+    {
+      "idPromo": "PROMO-003",
+      "code": "SIBULUE15",
+      "label": "Diskon 15% Belanja Minimal Rp 100rb",
+      "type": "percent",
+      "value": 15,
+      "minPurchase": 100000,
+      "maxDiscount": 50000,
+      "isActive": true,
+      "expiredAt": "2026-12-31"
+    }
   ]
 }

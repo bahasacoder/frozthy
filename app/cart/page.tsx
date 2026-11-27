@@ -58,21 +58,23 @@ export default function CartPage() {
   const [customerNote, setCustomerNote] = useState("");
 
   // Kalkulasi ringkasan belanja
-  const totalQty = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const totalQty = cartItems.reduce((sum, item) => sum + Number(item.quantity || 0), 0);
   const subtotalAsli = cartItems.reduce(
-    (sum, item) => sum + item.hargaItem * item.quantity,
+    (sum, item) => sum + Number(item.hargaItem || 0) * Number(item.quantity || 0),
     0
   );
   const totalDiskon = cartItems.reduce(
-    (sum, item) => sum + (item.hargaDiskon || 0) * item.quantity,
+    (sum, item) => sum + Number(item.hargaDiskon || 0) * Number(item.quantity || 0),
     0
   );
-  const grandTotal = cartItems.reduce(
-    (sum, item) =>
-      sum + (item.hargaList ?? (item.hargaItem - (item.hargaDiskon || 0)) * item.quantity),
-    0
-  );
-  
+
+  // Hitung langsung dari harga satuan setelah diskon * quantity (jangan bergantung pada item.hargaList yang statis)
+  const grandTotal = cartItems.reduce((sum, item) => {
+    const hargaSatuanAkhir =
+      Number(item.hargaItem || 0) - Number(item.hargaDiskon || 0);
+    return sum + hargaSatuanAkhir * Number(item.quantity || 0);
+  }, 0);
+
  const clientDarkMode = mounted ? isDarkMode : false;
  const clientTotalQty = mounted ? totalQty : 0;
 
@@ -96,46 +98,98 @@ export default function CartPage() {
     dispatch(removeListItemFromCart(id));
   };
 
-  // Handler Checkout ke WhatsApp
+  const SHIPPING_OPTIONS = [
+    { id: "pickup", label: "Ambil di Tempat (Gratis)", cost: 0 },
+    { id: "watampone", label: "Kurir Lokal Watampone", cost: 10000 },
+    { id: "bone-area", label: "Area Kab. Bone (Sibulue, dll.)", cost: 15000 },
+    { id: "ekspedisi", label: "Ekspedisi Luar Kab. Bone", cost: 25000 },
+  ] as const;
+
+  const [selectedShippingId, setSelectedShippingId] = useState<string>("pickup");
+
+  const selectedShipping =
+    SHIPPING_OPTIONS.find((opt) => opt.id === selectedShippingId) ||
+    SHIPPING_OPTIONS[0];
+
+  const ongkir = mounted ? selectedShipping.cost : 0;
+
+  
+  // Grand Total sudah termasuk ongkos kirim (dan dikurangi promo jika ada)
+  const grandTotalWithShipping = Math.max(
+    0,
+    grandTotal + ongkir
+    //     grandTotal - (typeof promoDiscountAmount === "number" ? promoDiscountAmount : 0) + ongkir
+
+  );
+
+
   const handleWhatsAppCheckout = () => {
     if (cartItems.length === 0) return;
 
-    // Ganti dengan nomor WhatsApp admin PasarBone (format 628...)
+    // Ganti dengan nomor WhatsApp Admin PasarBone (awali dengan 62)
     const adminPhone = "6281268052229";
 
-    const itemsText = cartItems
-      .map(
-        (item, idx) =>
-          `${idx + 1}. *${item.productName}*\n   ${item.quantity}x @ Rp ${formatRibuan(
-            item.hargaItem - (item.hargaDiskon || 0)
-          )} = *Rp ${formatRibuan(item.hargaList)}*`
-      )
-      .join("\n");
+    // Buat nomor referensi pesanan singkat berdasarkan tanggal & kode acak
+    const orderCode = `PB-${new Date().getTime().toString().slice(-6)}`;
 
-    const message = [
-      `Halo *PasarBone*, saya ingin memesan produk berikut:`,
-      ``,
-      itemsText,
-      ``,
-      `--------------------------------`,
-      `Total Item: *${totalQty} pcs*`,
-      totalDiskon > 0 ? `Total Hemat: *Rp ${formatRibuan(totalDiskon)}*` : null,
-      `*Total Bayar: Rp ${formatRibuan(grandTotal)}*`,
-      `--------------------------------`,
-      customerName ? `Nama: ${customerName}` : null,
-      customerAddress ? `Alamat Pengiriman: ${customerAddress}` : null,
-      customerNote ? `Catatan: ${customerNote}` : null,
-      ``,
-      `Mohon konfirmasi ketersediaan & ongkos kirimnya. Terima kasih!`,
-    ]
-      .filter(Boolean)
-      .join("\n");
+    // Format daftar produk yang dibeli
+    const itemsList = cartItems
+      .map((item, idx) => {
+        const unitPrice = item.hargaItem - (item.hargaDiskon || 0);
+        const itemSubtotal = unitPrice * item.quantity;
+        const discountTag =
+          item.nilaiDiskon > 0 ? ` _(Diskon ${item.nilaiDiskon}%)_` : "";
 
-    const waUrl = `https://wa.me{adminPhone}?text=${encodeURIComponent(
-      message
-    )}`;
+        return [
+          `${idx + 1}. *${item.productName}*${discountTag}`,
+          `   • Kode: \`${item.idItem}\``,
+          `   • Jumlah: ${item.quantity} x Rp ${formatRibuan(unitPrice)} = *Rp ${formatRibuan(itemSubtotal)}*`,
+        ].join("\n");
+      })
+      .join("\n\n");
+
+    // Susun keseluruhan teks pesan WhatsApp
+    const messageLines = [
+      `🛍️ *PESANAN BARU - PASARBONE*`,
+      `No. Order: *#${orderCode}*`,
+      `━━━━━━━━━━━━━━━━━━━━`,
+      ``,
+      `📋 *Rincian Produk:*`,
+      itemsList,
+      ``,
+      `━━━━━━━━━━━━━━━━━━━━`,
+      `💰 *Ringkasan Pembayaran:*`,
+      `• Total Barang: *${totalQty} item*`,
+      `• Subtotal Harga: Rp ${formatRibuan(subtotalAsli)}`,
+      totalDiskon > 0
+        ? `• Total Hemat Diskon: *- Rp ${formatRibuan(totalDiskon)}*`
+        : null,
+      selectedShipping
+        ? `• Pengiriman (${selectedShipping.label}): *${
+            ongkir === 0 ? "Gratis" : `Rp ${formatRibuan(ongkir)}`
+          }*`
+        : null,
+      `• *GRAND TOTAL: Rp ${formatRibuan(grandTotalWithShipping ?? grandTotal)}*`,
+      `━━━━━━━━━━━━━━━━━━━━`,
+      ``,
+      `👤 *Data Pemesan:*`,
+      `• Nama: ${customerName.trim() || "-"}`,
+      `• Alamat: ${customerAddress.trim() || "-"}`,
+      customerNote.trim() ? `• Catatan: _${customerNote.trim()}_` : null,
+      ``,
+      `Mohon konfirmasi ketersediaan stok dan info pembayaran/rekeningnya. Terima kasih! 🙏`,
+    ];
+
+    const finalMessage = messageLines.filter((line) => line !== null).join("\n");
+    // Pastikan nomor sudah berawalan 62 (bukan 08 atau +62)
+    const formattedPhone = adminPhone.replace(/^0/, "62").replace(/\D/g, "");
+
+    // Tambahkan tanda "/" setelah wa.me dan "$" sebelum {formattedPhone}
+    const waUrl = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(finalMessage)}`;
+
     window.open(waUrl, "_blank", "noopener,noreferrer");
   };
+
   // if (!mounted) { ...
   return (
     <div
@@ -394,6 +448,173 @@ export default function CartPage() {
             </div>
           </div>
         )}
+
+        {/* Kolom Kanan: Ringkasan Belanja, Grand Total & Checkout WhatsApp */}
+          <div className="lg:col-span-4 sticky top-28">
+            <div
+              className={`p-6 rounded-2xl border space-y-5 ${
+                clientDarkMode
+                  ? "bg-[#12141c] border-gray-800"
+                  : "bg-white border-zinc-200/80 shadow-xs"
+              }`}
+            >
+              <h2
+                className={`text-lg font-bold border-b pb-3 ${
+                  clientDarkMode ? "border-gray-800" : "border-zinc-100"
+                }`}
+              >
+                Ringkasan Belanja
+              </h2>
+
+              {/* Rincian Harga & Grand Total */}
+              <div className="space-y-2.5 text-sm">
+                <div className="flex justify-between">
+                  <span className={clientDarkMode ? "text-gray-400" : "text-zinc-500"}>
+                    Total Harga ({clientTotalQty} barang)
+                  </span>
+                  <span className="font-medium">
+                    Rp {formatRibuan(mounted ? subtotalAsli : 0)}
+                  </span>
+                </div>
+
+                {mounted && totalDiskon > 0 && (
+                  <div className="flex justify-between text-emerald-500">
+                    <span>Total Hemat Diskon</span>
+                    <span className="font-medium">
+                      - Rp {formatRibuan(totalDiskon)}
+                    </span>
+                  </div>
+                )}
+
+                {/* Pilihan Metode Pengiriman */}
+                <div
+                  className={`pt-2.5 border-t space-y-1.5 ${
+                    clientDarkMode ? "border-gray-800" : "border-zinc-100"
+                  }`}
+                >
+                  <label
+                    htmlFor="shipping-method"
+                    className={`block text-xs font-medium ${
+                      clientDarkMode ? "text-gray-400" : "text-zinc-500"
+                    }`}
+                  >
+                    Metode Pengiriman
+                  </label>
+                  <select
+                    id="shipping-method"
+                    value={selectedShippingId}
+                    onChange={(e) => setSelectedShippingId(e.target.value)}
+                    className={`w-full px-3 py-2 text-xs rounded-xl border outline-none transition-colors cursor-pointer ${
+                      clientDarkMode
+                        ? "bg-gray-900 border-gray-700 text-gray-100 focus:border-cyan-500"
+                        : "bg-zinc-50 border-zinc-200 text-zinc-900 focus:border-blue-500"
+                    }`}
+                  >
+                    {SHIPPING_OPTIONS.map((option) => (
+                      <option key={option.id} value={option.id}>
+                        {option.label} —{" "}
+                        {option.cost === 0 ? "Gratis" : `Rp ${formatRibuan(option.cost)}`}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Biaya Ongkos Kirim */}
+                <div className="flex justify-between">
+                  <span className={clientDarkMode ? "text-gray-400" : "text-zinc-500"}>
+                    Ongkos Kirim
+                  </span>
+                  <span className="font-medium">
+                    {ongkir === 0 ? (
+                      <span className="text-emerald-500 font-semibold">Gratis</span>
+                    ) : (
+                      `Rp ${formatRibuan(ongkir)}`
+                    )}
+                  </span>
+                </div>
+
+                {/* Grand Total */}
+                <div
+                  className={`pt-3 border-t flex justify-between items-baseline ${
+                    clientDarkMode ? "border-gray-800" : "border-zinc-100"
+                  }`}
+                >
+                  <span className="font-bold text-base">Grand Total</span>
+                  <span
+                    className={`text-xl font-extrabold ${
+                      clientDarkMode ? "text-cyan-400" : "text-blue-600"
+                    }`}
+                  >
+                    Rp {formatRibuan(mounted ? grandTotalWithShipping : 0)}
+                  </span>
+                </div>
+              </div>
+
+
+              {/* Form Data Pengiriman */}
+              <div
+                className={`pt-4 border-t space-y-3 ${
+                  clientDarkMode ? "border-gray-800" : "border-zinc-100"
+                }`}
+              >
+                <p className="text-xs font-semibold uppercase tracking-wider opacity-75">
+                  Data Pemesan
+                </p>
+                <input
+                  type="text"
+                  value={customerName}
+                  onChange={(e) => setCustomerName(e.target.value)}
+                  placeholder="Nama Lengkap Anda"
+                  className={`w-full px-3.5 py-2 text-xs rounded-xl border outline-none transition-colors ${
+                    clientDarkMode
+                      ? "bg-gray-900 border-gray-700 text-white placeholder-gray-500 focus:border-cyan-500"
+                      : "bg-zinc-50 border-zinc-200 text-zinc-900 placeholder-zinc-400 focus:border-blue-500"
+                  }`}
+                />
+                <input
+                  type="text"
+                  value={customerAddress}
+                  onChange={(e) => setCustomerAddress(e.target.value)}
+                  placeholder="Alamat / Kecamatan (misal: Tanete Riattang, Watampone)"
+                  className={`w-full px-3.5 py-2 text-xs rounded-xl border outline-none transition-colors ${
+                    clientDarkMode
+                      ? "bg-gray-900 border-gray-700 text-white placeholder-gray-500 focus:border-cyan-500"
+                      : "bg-zinc-50 border-zinc-200 text-zinc-900 placeholder-zinc-400 focus:border-blue-500"
+                  }`}
+                />
+                <input
+                  type="text"
+                  value={customerNote}
+                  onChange={(e) => setCustomerNote(e.target.value)}
+                  placeholder="Catatan pesanan (opsional)"
+                  className={`w-full px-3.5 py-2 text-xs rounded-xl border outline-none transition-colors ${
+                    clientDarkMode
+                      ? "bg-gray-900 border-gray-700 text-white placeholder-gray-500 focus:border-cyan-500"
+                      : "bg-zinc-50 border-zinc-200 text-zinc-900 placeholder-zinc-400 focus:border-blue-500"
+                  }`}
+                />
+              </div>
+
+              {/* Tombol Checkout WhatsApp */}
+              <button
+                type="button"
+                onClick={handleWhatsAppCheckout}
+                className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-5 rounded-xl text-sm font-bold bg-emerald-600 hover:bg-emerald-500 active:scale-[0.98] text-white shadow-md shadow-emerald-600/20 transition-all cursor-pointer"
+              >
+                <MessageCircle className="w-4 h-4" />
+                Checkout via WhatsApp
+              </button>
+
+              <div
+                className={`flex items-center justify-center gap-1.5 text-[11px] ${
+                  clientDarkMode ? "text-gray-500" : "text-zinc-400"
+                }`}
+              >
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+                <span>Pesanan diteruskan langsung ke admin PasarBone</span>
+              </div>
+            </div>
+          </div>
       </main>
     </div>
   );
