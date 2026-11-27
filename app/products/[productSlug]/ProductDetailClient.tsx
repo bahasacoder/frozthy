@@ -104,23 +104,28 @@ const hargaAkhir =
           ? hargaItemNum - discountAmount
           : hargaItemNum;
   
+      const selectedVariantImage =
+        selectedItem.imagesItem?.find((img) => Boolean(img)) ||
+        activeImage ||
+        resolveProductImage(product);
+
       const cartPayload = {
-        id: newIdList,
-        idList: newIdList,
-        idProduct: product.idProduct,
-        idItem: activeItem.idItem,
-        productName: `${product.productName} (${activeItem.namaItem})`,
-        productImage: activeItem.imagesItem?.[0] ?? resolveProductImage(product),
-        hargaItem: hargaItemNum,
-        hargaDiskon: discountAmount,
-        nilaiDiskon: activeItem.nilaiDiskon ?? 0,
-        quantity: qty,
-        totalHargaItem: hargaItemNum * qty,
-        hargaList: finalPrice * qty,
-      } as unknown as Parameters<typeof addItemToCart>[0];
-  
-      // Dispatch ke Redux Toolkit store
-      dispatch(addItemToCart(cartPayload));
+            id: newIdList,
+            idList: newIdList,
+            idProduct: product.idProduct,
+            idItem: activeItem.idItem,
+            productName: `${product.productName} (${activeItem.namaItem})`,
+            productImage: activeItem.imagesItem?.[0] ?? resolveProductImage(product),
+            hargaItem: hargaItemNum,
+            hargaDiskon: discountAmount,
+            nilaiDiskon: activeItem.nilaiDiskon ?? 0,
+            quantity: qty,
+            totalHargaItem: hargaItemNum * qty,
+            hargaList: finalPrice * qty,
+          } as unknown as Parameters<typeof addItemToCart>[0];
+      
+          // Dispatch ke Redux Toolkit store
+          dispatch(addItemToCart(cartPayload));
   
       // Picu efek visual pada tombol kartu yang diklik
       setAddedIdItem(activeItem.idItem);

@@ -20,6 +20,7 @@ export interface CartItem {
   idList?: string;
   productName?: string;
   productImage?: string;
+  imagesItem?: string[]; // <-- Tambahkan array gambar varian di sini
   hargaItem?: number;
   hargaDiskon?: number;
   nilaiDiskon?: number;

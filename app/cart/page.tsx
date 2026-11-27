@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -30,6 +30,7 @@ interface CartItem {
   idItem: string;
   productName: string;
   productImage: string;
+  imagesItem: string;
   hargaItem: number;
   hargaDiskon: number;
   nilaiDiskon: number;
@@ -41,6 +42,10 @@ interface CartItem {
 export default function CartPage() {
   const dispatch = useDispatch();
   const { isDarkMode } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Ambil daftar item dari Redux store (sesuaikan key state.cart.items / state.cart.cartItems)
   const cartItems: CartItem[] = useSelector(
@@ -67,6 +72,9 @@ export default function CartPage() {
       sum + (item.hargaList ?? (item.hargaItem - (item.hargaDiskon || 0)) * item.quantity),
     0
   );
+  
+ const clientDarkMode = mounted ? isDarkMode : false;
+ const clientTotalQty = mounted ? totalQty : 0;
 
   // Handler ubah kuantitas
   const handleQuantityChange = (item: CartItem, newQty: number) => {
@@ -128,7 +136,7 @@ export default function CartPage() {
     )}`;
     window.open(waUrl, "_blank", "noopener,noreferrer");
   };
-
+  // if (!mounted) { ...
   return (
     <div
       className={`min-h-screen overflow-x-hidden font-sans transition-colors duration-500 pb-20 ${
@@ -155,25 +163,26 @@ export default function CartPage() {
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight flex items-center gap-3">
               <ShoppingBag
                 className={`w-7 h-7 ${
-                  isDarkMode ? "text-cyan-400" : "text-blue-600"
+                  clientDarkMode ? "text-cyan-400" : "text-blue-600"
                 }`}
               />
               Keranjang Belanja
-              {totalQty > 0 && (
+              {clientTotalQty > 0 && (
                 <span
                   className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
-                    isDarkMode
+                    clientDarkMode
                       ? "bg-cyan-950 text-cyan-400 border border-cyan-800/60"
                       : "bg-blue-50 text-blue-700"
                   }`}
                 >
-                  {totalQty} Item
+                  {clientTotalQty} Item
                 </span>
               )}
             </h1>
+
           </div>
 
-          {cartItems.length > 0 && (
+          {mounted && cartItems.length > 0 && (
             <button
               type="button"
               onClick={() => dispatch(clearCart())}
@@ -256,8 +265,15 @@ export default function CartPage() {
                       }`}
                     >
                       <img
-                        src={item.productImage || "/images/placeholder.jpg"}
+                        src={
+                          item.productImage ||
+                          item.imagesItem ||
+                          "/images/placeholder.jpg"
+                        }
                         alt={item.productName}
+                        onError={(e) => {
+                          e.currentTarget.src = "/images/placeholder.jpg";
+                        }}
                         className="w-full h-full object-contain p-1.5"
                       />
                     </div>

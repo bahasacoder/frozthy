@@ -1,8 +1,10 @@
 "use client";
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 import { AnimatePresence, motion } from "framer-motion";
-import { useTheme } from "@/context/ThemeContext"
+import { useTheme } from "@/context/ThemeContext";
 import { Moon, Search, ShoppingBag, Sun, Menu, X } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -17,6 +19,25 @@ export default function Navbar() {
   const { isDarkMode, setIsDarkMode } = useTheme();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const cartCount = 0;
+  
+  // Ambil data item keranjang dari Redux Store
+  const cartItems = useSelector(
+    (state: any) => state.cart?.items || state.cart?.cartItems || []
+  );
+  const totalCartQty = cartItems.reduce(
+    (sum: number, item: any) => sum + (Number(item.quantity) || 1),
+    0
+  );
+
+  // State mounted untuk mencegah Hydration Mismatch
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Nilai aman yang dipakai saat render JSX
+  const clientDarkMode = mounted ? isDarkMode : false;
+  const clientCartCount = mounted ? totalCartQty : 0;
 
   // Definisikan daftar menu beserta rute URL-nya
 const navItems = [
