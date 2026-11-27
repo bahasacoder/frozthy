@@ -47,7 +47,7 @@ export default function Navbar() {
 const navItems = [
   { label: "Beranda", href: "/" },
   { label: "About", href: "/about" },
-  { label: "Products", href: "/products" },
+  { label: "Shop", href: "/shop" },
   { label: "Contact Us", href: "/contact" },
   { label: "Recipes", href: "/recipes" },
   { label: "Today's", href: "/todays" },
@@ -170,15 +170,14 @@ const navItems = [
       </button>
 
       {/* Tombol Keranjang Belanja */}
-      <button
-        type="button"
+      <Link
+        href="/cart"
         aria-label="Open Cart"
         onClick={() => {
           setIsMobileMenuOpen(false);
           setIsSearchOpen(false);
-          setIsCartOpen(true);
         }}
-        className={`p-2 rounded-full relative transition-colors cursor-pointer ${
+        className={`p-2 rounded-full relative inline-flex items-center justify-center transition-colors cursor-pointer ${
           clientDarkMode
             ? "text-gray-400 hover:text-white hover:bg-gray-900"
             : "text-gray-600 hover:text-black hover:bg-gray-200"
@@ -197,7 +196,7 @@ const navItems = [
             </motion.span>
           )}
         </AnimatePresence>
-      </button>
+      </Link>
 
       {/* Tombol Hamburger Menu (Mobile) */}
       <motion.button

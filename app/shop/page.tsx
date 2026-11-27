@@ -196,7 +196,7 @@ export default function ProductGridShop({
                       : "text-zinc-900 group-hover:text-indigo-600"
                   }`}
                 >
-                  <a href={`/products/${product.productSlug}`}>
+                  <a href={`/shop/${product.productSlug}`}>
                     {product.productName}
                   </a>
                 </h3>
@@ -242,7 +242,7 @@ export default function ProductGridShop({
 
                   {product.productItems.length > 3 && (
                     <a
-                      href={`/products/${product.productSlug}`}
+                      href={`/shop/${product.productSlug}`}
                       className={`inline-flex items-center rounded-md px-2 py-1 text-[11px] font-medium transition-colors ${
                         isDarkMode
                           ? "bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 border border-cyan-500/20"
