@@ -143,8 +143,8 @@ export default function CartPage() {
         isDarkMode ? "bg-[#0b0c10] text-gray-100" : "bg-gray-50 text-gray-900"
       }`}
     >
-      <Navbar />
-
+      {/* 1. NAVIGATION BAR */}
+      
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28">
         {/* Header Halaman */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
@@ -199,7 +199,7 @@ export default function CartPage() {
         </div>
 
         {/* Kondisi Keranjang Kosong */}
-        {cartItems.length === 0 ? (
+        {!mounted || cartItems.length === 0 ? (
           <div
             className={`rounded-3xl border p-12 text-center max-w-xl mx-auto my-12 ${
               isDarkMode

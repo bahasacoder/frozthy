@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import Navbar from "@/components/Navbar";
 import { useTheme } from "@/context/ThemeContext"
 
 interface ContactPageProps {
@@ -60,7 +59,7 @@ export default function ContactPage({ initialDarkMode = false }: ContactPageProp
       
       
       {/* 1. NAVIGATION BAR */}
-      <Navbar />
+      
       {/* 2. CINEMATIC HERO SECTION */}
       <header className="relative h-screen flex items-center justify-center overflow-hidden">
          {/* Header */}

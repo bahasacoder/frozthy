@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useTheme } from "@/context/ThemeContext"
-import Navbar from "@/components/Navbar";
 
 interface ContactPageProps {
   // Opsional: bisa menerima status tema dari global state / Redux Anda
@@ -44,7 +43,6 @@ const { isDarkMode } = useTheme();
       }`}
     >
       {/* 1. NAVIGATION BAR */}
-      <Navbar />
 
       <div className="w-full flex flex-col pt-20">
         {/* 2. BANNER HEADER */}

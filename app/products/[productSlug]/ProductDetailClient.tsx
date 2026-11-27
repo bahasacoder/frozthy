@@ -6,7 +6,6 @@ import { useDispatch } from "react-redux";
 import { addItemToCart } from "@/lib/features/cart/cartSlice"; // Sesuaikan path cartSlice Anda
 import { Str_Random, formatRibuan } from "@/actions/generalFunctions";
 import { ShoppingBag, Check } from "lucide-react";
-import Navbar from "@/components/Navbar";
 import { useTheme } from "@/context/ThemeContext";
 
 interface ProductDetailClientProps {
@@ -174,7 +173,7 @@ const hargaAkhir =
         isDarkMode ? "bg-[#0b0c10] text-gray-100" : "bg-gray-50 text-gray-900"
       }`}
     >
-      <Navbar />
+      {/* 1. NAVIGATION BAR */}
 
       <div
         className={`max-w-6xl mx-auto rounded-2xl shadow-sm overflow-hidden border transition-colors ${

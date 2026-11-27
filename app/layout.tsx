@@ -32,9 +32,9 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <StoreProvider>
-          <ThemeProvider>
+           <ThemeProvider>
             <Navbar />
-            {children}
+            <div className="flex-1">{children}</div>
           </ThemeProvider>
         </StoreProvider>
       </body>

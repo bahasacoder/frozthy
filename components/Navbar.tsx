@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { AnimatePresence, motion } from "framer-motion";
@@ -15,19 +15,30 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [cartCount, setCartCount] = useState<number>(0);
   
   const { isDarkMode, setIsDarkMode } = useTheme();
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const cartCount = 0;
-  
+
   // Ambil data item keranjang dari Redux Store
   const cartItems = useSelector(
     (state: any) => state.cart?.items || state.cart?.cartItems || []
   );
-  const totalCartQty = cartItems.reduce(
-    (sum: number, item: any) => sum + (Number(item.quantity) || 1),
-    0
-  );
+  const totalCartQty = useMemo(
+  () =>
+    cartItems.reduce(
+      (sum: number, item: any) => sum + (Number(item.quantity) || 1),
+      0
+    ),
+  [cartItems]
+);
+  if(totalCartQty > 0) {
+     setCartCount(totalCartQty);
+  }
+  // const totalItemsCount = cartItems.reduce(
+  //   (total, item) => total + (Number(item.quantity) || 0),
+  //   0
+  // );
 
   // State mounted untuk mencegah Hydration Mismatch
   const [mounted, setMounted] = useState(false);
