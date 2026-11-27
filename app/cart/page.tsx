@@ -18,7 +18,7 @@ import { useTheme } from "@/context/ThemeContext";
 import { formatRibuan } from "@/actions/generalFunctions";
 // Sesuaikan nama action reducer dengan isi file cartSlice.ts Anda
 import {
-  removeItemFromCart,
+  removeListItemFromCart,
   onUpdateQuantity,
   clearCart,
 } from "@/lib/features/cart/cartSlice";
@@ -79,7 +79,7 @@ export default function CartPage() {
   // Handler ubah kuantitas
   const handleQuantityChange = (item: CartItem, newQty: number) => {
     if (newQty <= 0) {
-      dispatch(removeItemFromCart(item.idList || item.id));
+      dispatch(removeListItemFromCart(item.idList || item.id));
       return;
     }
     dispatch(
@@ -93,7 +93,7 @@ export default function CartPage() {
 
   // Handler hapus 1 item
   const handleRemoveItem = (id: string) => {
-    dispatch(removeItemFromCart(id));
+    dispatch(removeListItemFromCart(id));
   };
 
   // Handler Checkout ke WhatsApp
@@ -101,7 +101,7 @@ export default function CartPage() {
     if (cartItems.length === 0) return;
 
     // Ganti dengan nomor WhatsApp admin PasarBone (format 628...)
-    const adminPhone = "6281234567890";
+    const adminPhone = "6281268052229";
 
     const itemsText = cartItems
       .map(
@@ -243,15 +243,17 @@ export default function CartPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             {/* Kolom Kiri: List Item Keranjang */}
             <div className="lg:col-span-8 space-y-4">
-              {cartItems.map((item) => {
+              {mounted && cartItems.map((item) => {
                 const unitPrice = item.hargaItem - (item.hargaDiskon || 0);
                 const itemSubtotal = unitPrice * item.quantity;
 
                 return (
                   <div
                     key={item.idList || item.id}
-                    className={`flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 sm:p-5 rounded-2xl border transition-all ${
-                      isDarkMode
+                    className={`
+                      flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 sm:p-5 rounded-2xl 
+                      border transition-all ${
+                      clientDarkMode 
                         ? "bg-[#12141c] border-gray-800 hover:border-gray-700"
                         : "bg-white border-zinc-200/80 shadow-xs"
                     }`}
@@ -259,7 +261,7 @@ export default function CartPage() {
                     {/* Gambar Produk */}
                     <div
                       className={`relative w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden border shrink-0 ${
-                        isDarkMode
+                        clientDarkMode 
                           ? "bg-gray-900 border-gray-800"
                           : "bg-zinc-50 border-zinc-100"
                       }`}
@@ -289,22 +291,103 @@ export default function CartPage() {
                       <div className="flex items-center gap-2 flex-wrap">
                         <span
                           className={`text-sm font-bold ${
-                            isDarkMode ? "text-cyan-400" : "text-blue-600"
+                            clientDarkMode  ? "text-cyan-400" : "text-blue-600"
                           }`}
                         >
                           Rp {formatRibuan(unitPrice)}
                         </span>
                         {item.hargaDiskon > 0 && (
-                          <span
-                            className={`text-sm line-through ${
-                              isDarkMode ? "text-gray-500" : "text-gray-400"
-                            }`}
-                          >
-                            Rp {formatRibuan(item.hargaItem)}
-                          </span>
+                          <>
+                            <span
+                              className={`text-sm line-through ${
+                                clientDarkMode  ? "text-gray-500" : "text-gray-400"
+                              }`}
+                            >
+                              Rp {formatRibuan(item.hargaItem)}
+                            </span>
+                            <span className="inline-flex items-center gap-0.5 text-[11px] font-semibold px-1.5 py-0.5 rounded bg-rose-500/15 text-rose-500">
+                              <Tag className="w-2.5 h-2.5" />-{item.nilaiDiskon}%
+                            </span>
+                          </>
                         )}
                       </div>
+                        <p
+                          className={`text-[11px] font-mono ${
+                            clientDarkMode ? "text-gray-500" : "text-zinc-400"
+                          }`}
+                        >
+                          Kode: {item.idItem}
+                        </p>
                     </div>
+                     {/* Penyesuaian Kuantitas (+ / -), Subtotal Item & Hapus Item */}
+                <div
+                  className={`w-full sm:w-auto flex sm:flex-col items-center sm:items-end justify-between gap-3 pt-3 sm:pt-0 border-t sm:border-t-0 ${
+                    clientDarkMode ? "border-gray-800" : "border-zinc-100"
+                  }`}
+                >
+                  <p className="font-bold text-base">
+                    Rp {formatRibuan(itemSubtotal)}
+                  </p>
+
+                  <div className="flex items-center gap-2">
+                    {/* Stepper Kuantitas (+ / -) */}
+                    <div
+                      className={`inline-flex items-center rounded-lg border ${
+                        clientDarkMode
+                          ? "border-gray-700 bg-gray-900"
+                          : "border-zinc-200 bg-zinc-50"
+                      }`}
+                    >
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleQuantityChange(item, item.quantity - 1)
+                        }
+                        aria-label="Kurangi jumlah"
+                        className={`p-1.5 transition-colors cursor-pointer ${
+                          clientDarkMode
+                            ? "text-gray-300 hover:text-white hover:bg-gray-800"
+                            : "text-zinc-600 hover:text-black hover:bg-zinc-200/70"
+                        }`}
+                      >
+                        <Minus className="w-3.5 h-3.5" />
+                      </button>
+
+                      <span className="px-3 text-xs font-bold min-w-[32px] text-center">
+                        {item.quantity}
+                      </span>
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleQuantityChange(item, item.quantity + 1)
+                        }
+                        aria-label="Tambah jumlah"
+                        className={`p-1.5 transition-colors cursor-pointer ${
+                          clientDarkMode
+                            ? "text-gray-300 hover:text-white hover:bg-gray-800"
+                            : "text-zinc-600 hover:text-black hover:bg-zinc-200/70"
+                        }`}
+                      >
+                        <Plus className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+
+                    {/* Tombol Hapus Item */}
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveItem(item.idList || item.id)}
+                      title="Hapus item"
+                      className={`p-2 rounded-lg transition-colors cursor-pointer ${
+                        clientDarkMode
+                          ? "text-gray-500 hover:text-red-400 hover:bg-red-950/40"
+                          : "text-zinc-400 hover:text-red-600 hover:bg-red-50"
+                      }`}
+                    >
+                      Hapus Item
+                    </button>
+                  </div>
+                  </div>
                   </div>
                 );
               })}
