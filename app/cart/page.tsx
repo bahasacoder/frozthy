@@ -199,7 +199,7 @@ export default function CartPage() {
         </div>
 
         {/* Kondisi Keranjang Kosong */}
-        {cartItems.length === 0 ? (
+        {!mounted || cartItems.length === 0 ? (
           <div
             className={`rounded-3xl border p-12 text-center max-w-xl mx-auto my-12 ${
               isDarkMode
