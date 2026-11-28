@@ -8,7 +8,7 @@ export default function FloatingWhatsApp() {
       `Halo Admin *Frozthy Frozen Food*! 👋\n` +
       `Saya mau tanya-tanya seputar menu sehat & pengiriman di area Sibulue / Bone.`;
 
-    const whatsappUrl = `https://wa.me{WHATSAPP_NUMBER}?text=${encodeURIComponent(
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
       chatMessage
     )}`;
 
