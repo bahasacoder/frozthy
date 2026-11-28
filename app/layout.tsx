@@ -3,6 +3,7 @@ import StoreProvider from "./StoreProvider";
 import { ThemeProvider } from "@/context/ThemeContext";
 import Navbar from "@/components/Navbar"; // Pastikan huruf besar/kecil sesuai nama file (Navbar.tsx atau navbar.tsx)
 import Footer from "@/components/Footer";
+import FloatingWhatsApp from "@/components/blocks/FloatingWhatsApp"
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -37,6 +38,7 @@ export default function RootLayout({
             <Navbar />
             <div className="flex-1">{children}</div>
             <Footer />
+            <FloatingWhatsApp />
           </ThemeProvider>
         </StoreProvider>
       </body>

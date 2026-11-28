@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
+import { generateCartCode } from "@/actions/generalFunctions"
 import {
   Trash2,
   Plus,
@@ -56,6 +57,7 @@ export default function CartPage() {
   const [customerName, setCustomerName] = useState("");
   const [customerAddress, setCustomerAddress] = useState("");
   const [customerNote, setCustomerNote] = useState("");
+  // const [generateIdCart] = useState(() => generateCartCode(Date.now()));
 
   // Kalkulasi ringkasan belanja
   const totalQty = cartItems.reduce((sum, item) => sum + Number(item.quantity || 0), 0);
@@ -125,12 +127,15 @@ export default function CartPage() {
 
   const handleWhatsAppCheckout = () => {
     if (cartItems.length === 0) return;
+    
 
     // Ganti dengan nomor WhatsApp Admin PasarBone (awali dengan 62)
     const adminPhone = "6281268052229";
 
     // Buat nomor referensi pesanan singkat berdasarkan tanggal & kode acak
-    const orderCode = `PB-${new Date().getTime().toString().slice(-6)}`;
+    // const orderCode = `FRZ-${new Date().getTime().toString().slice(-6)}`;
+    // const orderCode = generateIdCart;
+    const orderCode = generateCartCode(Date.now());
 
     // Format daftar produk yang dibeli
     const itemsList = cartItems
@@ -252,6 +257,13 @@ export default function CartPage() {
           )}
         </div>
 
+        {/* Grid Utama: Daftar Produk (Kiri) + Ringkasan Belanja (Kanan) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+          {/* =========================================================
+              SISI KIRI: LIST ITEM KERANJANG (8 Kolom di Desktop)
+            ========================================================= */}
+            
+        <div className="lg:col-span-8 space-y-3.5 sm:space-y-4">
         {/* Kondisi Keranjang Kosong */}
         {!mounted || cartItems.length === 0 ? (
           <div
@@ -448,9 +460,12 @@ export default function CartPage() {
             </div>
           </div>
         )}
-
+        </div>
+        {/* =========================================================
+            SISI KANAN: RINGKASAN BELANJA (4 Kolom di Desktop, Sticky)
+          ========================================================= */}
+        <div className="lg:col-span-4 lg:sticky lg:top-28 w-full">
         {/* Kolom Kanan: Ringkasan Belanja, Grand Total & Checkout WhatsApp */}
-          <div className="lg:col-span-4 sticky top-28">
             <div
               className={`p-6 rounded-2xl border space-y-5 ${
                 clientDarkMode
@@ -575,7 +590,7 @@ export default function CartPage() {
                   type="text"
                   value={customerAddress}
                   onChange={(e) => setCustomerAddress(e.target.value)}
-                  placeholder="Alamat / Kecamatan (misal: Tanete Riattang, Watampone)"
+                  placeholder="Alamat (misal: Tanda Khusus, Jalan, Dusun, dst)"
                   className={`w-full px-3.5 py-2 text-xs rounded-xl border outline-none transition-colors ${
                     clientDarkMode
                       ? "bg-gray-900 border-gray-700 text-white placeholder-gray-500 focus:border-cyan-500"
@@ -615,6 +630,7 @@ export default function CartPage() {
               </div>
             </div>
           </div>
+        </div>
       </main>
     </div>
   );

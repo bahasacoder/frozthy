@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useTheme } from "@/context/ThemeContext"
 import PbcLogo from "@/public/assets/pbc-logo.svg";
+import { MessageCircle } from "lucide-react"
 
 import {
   MapPin,
@@ -56,7 +57,6 @@ export default function Footer() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-
   return (
     <footer 
       className={`w-full border-t mt-0 transition-colors duration-300 ${
@@ -366,7 +366,6 @@ export default function Footer() {
           </button>
         </div>
       </div>
-
     </footer>
   );
 }

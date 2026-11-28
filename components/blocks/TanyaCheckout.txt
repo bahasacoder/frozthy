@@ -1,0 +1,36 @@
+
+  const handleWhatsAppChat = () => {
+    const chatMessage =
+      `Halo Admin *Frozthy Frozen Food*! 👋\n` +
+      `Saya mau tanya-tanya dulu seputar menu / pengiriman di area Bone & Sibulue.`;
+
+    const WHATSAPP_NUMBER = "6281268052229";
+
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+      chatMessage
+    )}`;
+
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+  };
+
+
+
+    {/* Grup Tombol Aksi WhatsApp */}
+      <div className="space-y-2.5">
+        {/* Tombol Utama: Checkout via WhatsApp */}
+      
+
+        {/* Tombol Sekunder: Ajak Ngobrol / Tanya Admin */}
+        <button
+          type="button"
+          onClick={handleWhatsAppChat}
+          className={`w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold border transition-all active:scale-[0.98] cursor-pointer ${
+            isDarkMode
+              ? "border-emerald-500/40 text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20"
+              : "border-emerald-600/30 text-emerald-700 bg-emerald-50/70 hover:bg-emerald-100/80"
+          }`}
+        >
+          <MessageCircle className="w-4 h-4 shrink-0" />
+          <span>Ada Pertanyaan? Ngobrol via WhatsApp</span>
+        </button>
+      </div>
