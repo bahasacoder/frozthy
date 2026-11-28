@@ -95,7 +95,7 @@ const navItems = [
                 isDarkMode ? "text-white" : "text-black"
               }`}
             >
-              Pasar<span className="text-cyan-500">Bone</span>
+              Froz<span className="text-cyan-500">thy</span>
             </span>
           </motion.div>
         </Link>

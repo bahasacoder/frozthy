@@ -169,7 +169,7 @@ const hargaAkhir =
 
   return (
     <div
-      className={`min-h-screen overflow-x-hidden font-sans transition-colors duration-500 ${
+      className={`min-h-screen overflow-x-hidden font-sans transition-colors duration-500 mt-18 ${
         isDarkMode ? "bg-[#0b0c10] text-gray-100" : "bg-gray-50 text-gray-900"
       }`}
     >

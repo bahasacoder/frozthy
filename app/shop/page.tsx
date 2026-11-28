@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addItemToCart } from "@/lib/features/cart/cartSlice"; // Sesuaikan path cartSlice Anda
 import { Str_Random, formatRupiah } from "@/actions/generalFunctions"; formatRupiah
@@ -291,24 +291,32 @@ export default function ProductGridShop({
                       isDarkMode ? "text-gray-400" : "text-zinc-500"
                     }`}
                   >
-                    <li className="inline-flex items-center capitalize truncate">
-                      {product.categories || "Produk"}
-                    </li>
-                    {product.categories && (
-                      <>
-                        <li
-                          aria-hidden="true"
-                          className={`shrink-0 ${
-                            isDarkMode ? "text-gray-600" : "text-zinc-400"
-                          }`}
-                        >
-                          <ChevronRight className="size-3.5" />
-                        </li>
-                        <li className="inline-flex items-center capitalize truncate">
-                          {product.categories}
-                        </li>
-                      </>
-                    )}
+                    {Array.isArray(product.categories) &&
+                      product.categories.map((category, index) => (
+                        <React.Fragment key={`${category}-${index}`}>
+                          {index > 0 && (
+                            <li
+                              aria-hidden="true"
+                              className={`shrink-0 ${
+                                isDarkMode ? "text-gray-600" : "text-zinc-400"
+                              }`}
+                            >
+                              <ChevronRight className="size-3.5" />
+                            </li>
+                          )}
+                          <li
+                            className={`inline-flex items-center capitalize truncate ${
+                              isPremium
+                                ? isDarkMode
+                                  ? "text-emerald-400 font-semibold"
+                                  : "text-green-600 font-semibold"
+                                : ""
+                            }`}
+                          >
+                            {category}
+                          </li>
+                        </React.Fragment>
+                      ))}
                     {isPremium && (
                       <li className="ml-1 shrink-0">
                         <BadgeCheck

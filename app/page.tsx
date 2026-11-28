@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, Heart, Search, Star, ArrowRight, X, Sun, Moon } from 'lucide-react';
-import ProductGridProd from '@/components/blocks/ProductGridProd';
+import ProductGridBlock from '@/components/blocks/ProductGridBlock';
 import { useTheme } from "@/context/ThemeContext"
 
 // Mock Data untuk Produk dengan visual riil
@@ -148,7 +148,7 @@ export default function ModernEcommerceHome() {
               <motion.div 
                 key={activeCategory}
               >
-                <ProductGridProd />
+                <ProductGridBlock />
               </motion.div>
             </AnimatePresence>
         </div>
