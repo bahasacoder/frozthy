@@ -140,7 +140,7 @@ export default function ProductGridBlock({
             >
               {/* Thumbnail */}
               <Link
-                href={`/products/${product.productSlug}`}
+                href={`/shop/${product.productSlug}`}
                 className="relative aspect-[4/3] w-full overflow-hidden bg-zinc-100 shrink-0 block"
               >
                 <img
